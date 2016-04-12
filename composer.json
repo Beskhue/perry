@@ -1,11 +1,16 @@
 {
-    "name": "3rdpartyeve/perry",
+    "name": "beskhue/perry",
     "description": "A PHP Library to access EVE Online's CREST API",
     "license": "MIT",
     "authors": [
         {
             "name": "Peter Petermann",
             "email": "ppetermann80@googlemail.com"
+        },
+        {
+            "name": "Beskhue",
+            "homepage": "https://churchman.nl",
+            "role": "Author"
         }
     ],
     "require": {
@@ -15,7 +20,7 @@
         "phpunit/phpunit": "4.0.*"
     },
     "support": {
-        "issues": "https://github.com/3rdpartyeve/perry/issues"
+        "issues": "https://github.com/Beskhue/perry/issues"
     },
     "autoload": {
         "psr-4": { "Perry\\": "src/Perry/", "Psr\\": "src/Psr/" }
