@@ -8,7 +8,7 @@ class Perry
     /**
      * @var string Version string
      */
-    public static $version = "2.0.0";
+    public static $version = "3.0.0-dev";
 
     /**
      * @param string $url
