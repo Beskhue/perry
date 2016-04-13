@@ -2,6 +2,7 @@
 namespace Perry\Fetcher;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\Promise;
 use Perry\Cache\CacheManager;
 use Perry\Perry;
 use Perry\Response;
@@ -55,28 +56,29 @@ class GuzzleFetcher implements CanFetch
      * @param string $url
      * @param string $representation
      * @throws \Exception
-     * @return \Perry\Response
+     * @return \GuzzleHttp\Promise\Promise that will resolve into a \Perry\Response
      */
     public function doGetRequest($url, $representation)
     {
+        $responsePromise = $this->guzzle->requestAsync('GET', $url, $this->getOpts($representation));
+        $promise = $responsePromise->then(
+            function($response) use ($url, $representation)
+            {
+                $data = $response->getBody();
+                $data = (String) $data;
 
-        if ($data = CacheManager::getInstance()->load($url)) {
-            return new Response($data['value'], $data['representation']);
-        }
+                if ($response->hasHeader("Content-Type")) {
+                    if (false !== ($retrep = Tool::parseContentTypeToRepresentation($response->getHeaderLine("Content-Type")))) {
+                        $representation = $retrep;
+                    }
+                }
 
-        $response = $this->guzzle->get($url, $this->getOpts($representation));
+                CacheManager::getInstance()->save($url, ["representation" => $representation, "value" => $data]);
 
-        $data = $response->getBody();
-        $data = (String) $data;
-
-        if ($response->hasHeader("Content-Type")) {
-            if (false !== ($retrep = Tool::parseContentTypeToRepresentation($response->getHeader("Content-Type")))) {
-                $representation = $retrep;
+                return new Response($data, $representation);
             }
-        }
-
-        CacheManager::getInstance()->save($url, ["representation" => $representation, "value" => $data]);
-
-        return new Response($data, $representation);
+        );
+        
+        return $promise;
     }
 }

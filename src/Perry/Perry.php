@@ -1,6 +1,8 @@
 <?php
 namespace Perry;
 
+use GuzzleHttp\Promise\Promise;
+
 class Perry
 {
     /**
@@ -11,13 +13,19 @@ class Perry
     /**
      * @param string $url
      * @param null|string $representation
-     * @return \Perry\Representation\Base
+     * @return \GuzzleHttp\Promise\Promise that will resolve into a \Perry\Representation\Base
      */
     public static function fromUrl($url, $representation = null)
     {
-        $data = Setup::getInstance()->fetcher->doGetRequest($url, $representation);
-        $classname = Tool::parseRepresentationToClass($data->representation);
-
-        return new $classname($data);
+        $dataPromise = Setup::getInstance()->fetcher->doGetRequest($url, $representation);
+        $promise = $dataPromise->then(
+            function($data)
+            {
+                $classname = Tool::parseRepresentationToClass($data->representation);
+                return new $classname($data);
+            }
+        );
+                
+        return $promise;
     }
 }

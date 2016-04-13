@@ -13,7 +13,7 @@ class Tool
     public static function parseContentTypeToRepresentation($contentType)
     {
         $matches = array();
-
+        
         preg_match('/^application\/(.*)\+json; charset=utf-8$/im', $contentType, $matches);
 
         if (count($matches) == 2) {
