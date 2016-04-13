@@ -56,9 +56,9 @@ please go to http://getcomposer.org/ and read up on it. Composer is a great syst
 are serious about PHP development you should know it.
 
 add either (releases)
-- "3rdpartyeve/perry": "1.0.*"
+- "beskhue/perry": "3.0.*"
 or (dev-master, changing source)
-- "3rdpartyeve/perry": "dev-master"
+- "beskhue/perry": "dev-master"
 to your composer.json
 
 ## USAGE
@@ -198,14 +198,14 @@ foreach ($districtCollection->items as $district) {
 ```
 
 ## Known Issues
-There is a hand full of known Problems. If you want to help with fixing them: PullRequests are welcome.
+There are a hand full of known issues. If you want to help with fixing them, pull requests are welcome.
 
 - CREST has a Uri type, which links to other parts of crest. It is not identical with a Reference, and not implemented yet - so at the moment a uri type will return a string with the uri, rather than an executeable object. This will be fixed soon.
 - From Version 1.0.0 on the original conveniance methods like ```\Perry\Representation\Eve\v1\DistrictCollection::getInstance();``` do not work anymore, this is on purpose
 - CREST dictionaries feature keys like "32x32", PHP will do a parse error on $object->32x32. You can either access those members by $object->{'32x32'}; or by using them as an array instead $object['32x32']. The later should be the preffered variant.
 - A lot of endpoints that are referenced to within CREST are not public available. There is nothing that can be done about that except if CCP opens those.
-- The Indentation within the representation classes is fucked up. Thats due to the classes being generated, and might get fixed in a future release
+- The Indentation within the representation classes is messed up. That's due to the classes being generated, and might get fixed in a future release
 - Perry currently does not support write access to any endpoint (POST), which should not be a problem since CCP has not published a writable interface for public usage yet.
-- The cache that comes with Perry is extremely rudimentary. There will be better solutions in the future.
-- Yes, the unittests are not complete, and Perry does not have full coverage.
+- The cache that comes with Perry is extremely rudimentary.
+- The unit tests are not complete.
 - Perry comes with classes in the Psr namespace, this is because Perry is implementing a Psr that is not in effect yet.
