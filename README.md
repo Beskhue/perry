@@ -207,6 +207,5 @@ There is a hand full of known Problems. If you want to help with fixing them: Pu
 - The Indentation within the representation classes is fucked up. Thats due to the classes being generated, and might get fixed in a future release
 - Perry currently does not support write access to any endpoint (POST), which should not be a problem since CCP has not published a writable interface for public usage yet.
 - The cache that comes with Perry is extremely rudimentary. There will be better solutions in the future.
-- CREST is rate limited preventing you from doing a ton of requests in a row (i believe 15 per second). This ratelimit is not enforced by Perry on you, so you have to take care of that yourself
 - Yes, the unittests are not complete, and Perry does not have full coverage.
 - Perry comes with classes in the Psr namespace, this is because Perry is implementing a Psr that is not in effect yet.
