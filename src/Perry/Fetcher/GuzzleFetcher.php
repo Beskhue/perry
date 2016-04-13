@@ -2,7 +2,10 @@
 namespace Perry\Fetcher;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\Promise\Promise;
+use Concat\Http\Middleware\RateLimiter;
 use Perry\Cache\CacheManager;
 use Perry\Perry;
 use Perry\Response;
@@ -15,7 +18,11 @@ class GuzzleFetcher implements CanFetch
 
     public function __construct()
     {
-        $this->guzzle = new Client();
+        $handler = new CurlHandler();
+        $stack = HandlerStack::create($handler); // Wrap w/ middleware
+        $rateLimiter = new RateLimiter(new \Perry\RateLimitProvider\memoryRateLimitProvider());
+        $stack->push($rateLimiter);
+        $this->guzzleClient = new Client(['handler' => $stack]);
     }
 
     /**
@@ -60,7 +67,7 @@ class GuzzleFetcher implements CanFetch
      */
     public function doGetRequest($url, $representation)
     {
-        $responsePromise = $this->guzzle->requestAsync('GET', $url, $this->getOpts($representation));
+        $responsePromise = $this->guzzleClient->requestAsync('GET', $url, $this->getOpts($representation));
         $promise = $responsePromise->then(
             function($response) use ($url, $representation)
             {
