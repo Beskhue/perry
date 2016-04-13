@@ -6,7 +6,7 @@ interface CanFetch
     /**
      * @param string $url
      * @param string $representation
-     * @return \Perry\Response
+     * @return \GuzzleHttp\Promise\Promise that will resolve into a \Perry\Response
      */
     public function doGetRequest($url, $representation);
 }

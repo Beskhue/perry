@@ -51,36 +51,43 @@ class FileFetcher implements CanFetch
      * @param string $url
      * @param string $representation
      * @throws \Exception
-     * @return \Perry\Response
+     * @return \GuzzleHttp\Promise\Promise that will resolve into a \Perry\Response
      */
     public function doGetRequest($url, $representation)
     {
-
-        if ($data = CacheManager::getInstance()->load($url)) {
-            return new Response($data['value'], $data['representation']);
-        }
-
-        $context = stream_context_create($this->getOpts($representation));
-
-        if (false === ($data = @file_get_contents($url, false, $context))) {
-
-            if (false === $headers = (@get_headers($url, 1))) {
-                throw new \Exception("could not connect to api");
-            }
-
-            throw new \Exception("an error occured with the http request: ".$headers[0]);
-        } else {
-            $headers = @get_headers($url, 1);
-            if (isset($headers['Content-Type'])) {
-                if (false !== ($retrep = Tool::parseContentTypeToRepresentation($headers['Content-Type']))) {
-                    $representation = $retrep;
+        $responsePromise = $this->guzzleClient->requestAsync('GET', $url, $this->getOpts($representation));
+        $promise = $responsePromise->then(
+            function($response) use ($url, $representation)
+            {
+                if ($data = CacheManager::getInstance()->load($url)) {
+                    return new Response($data['value'], $data['representation']);
                 }
+
+                $context = stream_context_create($this->getOpts($representation));
+
+                if (false === ($data = @file_get_contents($url, false, $context))) {
+
+                    if (false === $headers = (@get_headers($url, 1))) {
+                        throw new \Exception("could not connect to api");
+                    }
+
+                    throw new \Exception("an error occured with the http request: ".$headers[0]);
+                } else {
+                    $headers = @get_headers($url, 1);
+                    if (isset($headers['Content-Type'])) {
+                        if (false !== ($retrep = Tool::parseContentTypeToRepresentation($headers['Content-Type']))) {
+                            $representation = $retrep;
+                        }
+                    }
+
+                }
+
+                CacheManager::getInstance()->save($url, ["representation" => $representation, "value" => $data]);
+
+                return new Response($data, $representation);
             }
-
-        }
-
-        CacheManager::getInstance()->save($url, ["representation" => $representation, "value" => $data]);
-
-        return new Response($data, $representation);
+        );
+        
+        return $promise;
     }
 }
