@@ -55,12 +55,11 @@ class FileFetcher implements CanFetch
      */
     public function doGetRequest($url, $representation)
     {
-        $responsePromise = $this->guzzleClient->requestAsync('GET', $url, $this->getOpts($representation));
-        $promise = $responsePromise->then(
-            function($response) use ($url, $representation)
+        $promise = new Promise(
+            function () use(&$promise, &$url, &$representation)
             {
                 if ($data = CacheManager::getInstance()->load($url)) {
-                    return new Response($data['value'], $data['representation']);
+                    $promise->resolve(new Response($data['value'], $data['representation']));
                 }
 
                 $context = stream_context_create($this->getOpts($representation));
@@ -71,7 +70,7 @@ class FileFetcher implements CanFetch
                         throw new \Exception("could not connect to api");
                     }
 
-                    throw new \Exception("an error occured with the http request: ".$headers[0]);
+                    throw new \Exception("an error occured with the file request: ".$headers[0]);
                 } else {
                     $headers = @get_headers($url, 1);
                     if (isset($headers['Content-Type'])) {
@@ -84,7 +83,7 @@ class FileFetcher implements CanFetch
 
                 CacheManager::getInstance()->save($url, ["representation" => $representation, "value" => $data]);
 
-                return new Response($data, $representation);
+                $promise->resolve(new Response($data, $representation));
             }
         );
         
