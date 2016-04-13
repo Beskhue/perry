@@ -1,6 +1,7 @@
 {
     "name": "beskhue/perry",
     "description": "A PHP Library to access EVE Online's CREST API",
+    "version": "3.0.0-dev",
     "license": "MIT",
     "authors": [
         {
@@ -14,7 +15,8 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "4.0.*"
+        "guzzlehttp/guzzle": "6.2.*",
+        "guzzlehttp/promises": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*"
