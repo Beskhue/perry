@@ -71,6 +71,10 @@ class GuzzleFetcher implements CanFetch
         $promise = $responsePromise->then(
             function($response) use ($url, $representation)
             {
+                if ($data = CacheManager::getInstance()->load($url)) {
+                    return new Response($data['value'], $data['representation']);
+                }
+                
                 $data = $response->getBody();
                 $data = (String) $data;
 
