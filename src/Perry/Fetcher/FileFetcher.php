@@ -103,4 +103,12 @@ class FileFetcher implements CanFetch
     {
         throw new Exception('Not implemented.');
     }
+    
+    /** 
+     * Synchronously wait for all outstanding connections to be handled.
+     */
+    public function execute()
+    {
+        throw new Exception('Not implemented.');
+    }
 }

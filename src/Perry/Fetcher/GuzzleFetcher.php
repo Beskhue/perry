@@ -17,14 +17,16 @@ use Perry\Tool;
 
 class GuzzleFetcher implements CanFetch
 {
-    private $guzzle;
+    private $handler;
+    private $guzzleClient;
 
     public function __construct()
     {
-        $handler = new CurlMultiHandler();
-        $stack = HandlerStack::create($handler);
+        $this->handler = new CurlMultiHandler();
+        $stack = HandlerStack::create($this->handler);
         $rateLimiter = new RateLimiter(new \Perry\RateLimitProvider\memoryRateLimitProvider());
         $stack->push($rateLimiter);
+        
         $this->guzzleClient = new Client(['handler' => $stack]);
     }
 
@@ -174,5 +176,13 @@ class GuzzleFetcher implements CanFetch
         ]);
 
         return $pool;
+    }
+    
+    /** 
+     * Synchronously wait for all outstanding connections to be handled.
+     */
+    public function execute()
+    {
+        $this->handler->execute();
     }
 }

@@ -22,4 +22,10 @@ interface CanFetch
      * @return \GuzzleHttp\Promise\PromisorInterface
      */
     public function doGetRequests($requests, $fulfilled, $rejected);
+    
+    /** 
+     * Synchronously wait for all outstanding connections to be handled.
+     */
+    public function execute();
+    
 }

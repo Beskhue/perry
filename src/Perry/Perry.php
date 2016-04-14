@@ -98,4 +98,12 @@ class Perry
             yield self::fromUrls($batch['requests'], $wrapFulfilled, $wrapRejected);
         }
     }
+    
+    /** 
+     * Synchronously wait for all outstanding connections to be handled.
+     */
+    public static function execute()
+    {
+        Setup::getInstance()->fetcher->execute();
+    }
 }
