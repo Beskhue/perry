@@ -47,8 +47,8 @@ final class Setup
     public static $bindToIp = "0.0.0.0:0";
     public static $cacheTTL = 300; // 5 minutes default
     public static $userAgent = "( Unknown PHP Application )";
-    public static $requestsPerSecond = 150;
-    public static $concurrentRequests = 20;
+    public static $requestsPerSecond = 120;
+    public static $concurrentRequests = 18;
 
     /**
      * @var array can be used to pass additional options to the fetcher
