@@ -2,8 +2,7 @@
 This library has recently been deprecated by the previous maintainer. The intention with this fork is to bring the library up to date.
 
 # Perry
-a PHP Library for accessing EVE Online's CREST API
-
+A PHP Library for accessing EVE Online's CREST API.
 
 ## WARNING
 this is a prototype / work in progress.
@@ -11,7 +10,6 @@ As CCP has not released much of the CREST API yet its use is extremely limited,
 also this library is not to be considered complete or stable, most likely
 backward compatibility will break during further development.
 Do not use this if you don't know what you are doing.
-
 
 ## Status on the Completeness:
 Implemented:
@@ -31,35 +29,7 @@ which is mostly not working yet, so don't use it.
 Also have a look at the bottom of this README, it contains a list of all known issues.
 
 
-## LICENSE
-This library is released under the MIT style license.
-See LICENSE.txt for details.
 
-## REQUIREMENTS
-- PHP 5.4+
-- Composer: http://getcomposer.org
-
-## INSTALLATION
-### Assumptions
-A few assumptions are made before you start:
-1. you are on linux, and you have commandline access.
-2. you know how to handle yourself on linux
-3. the requirements (see README) are installed.
-
-###  Quick Install
-Perry is installed and updated through the great composer dependency management,
-it is available through Packagist, so your composer installer should find the packages
-by default.
-
-If you don't know your way around with composer, have never used it and need examples,
-please go to http://getcomposer.org/ and read up on it. Composer is a great system, and if you
-are serious about PHP development you should know it.
-
-add either (releases)
-- "beskhue/perry": "3.0.*"
-or (dev-master, changing source)
-- "beskhue/perry": "dev-master"
-to your composer.json
 
 ## USAGE
 ### Cache
