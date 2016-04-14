@@ -1,7 +1,8 @@
 <?php
+
 namespace Perry\Cache\File;
 
-use \DateTime;
+use DateTime;
 use Psr\Cache\ItemInterface;
 
 class FileItem implements ItemInterface
@@ -36,7 +37,6 @@ class FileItem implements ItemInterface
      */
     private $filename;
 
-
     /**
      * Returns the key for the current cache item.
      *
@@ -44,7 +44,7 @@ class FileItem implements ItemInterface
      * the higher level callers when needed.
      *
      * @return string
-     *   The key string for this cache item.
+     *                The key string for this cache item.
      */
     public function getKey()
     {
@@ -61,7 +61,7 @@ class FileItem implements ItemInterface
      * differentiate between "null value was found" and "no value was found."
      *
      * @return \Serializable|null
-     *   The value corresponding to this cache item's key, or null if not found.
+     *                            The value corresponding to this cache item's key, or null if not found.
      */
     public function get()
     {
@@ -81,19 +81,20 @@ class FileItem implements ItemInterface
      * be set to the maximum possible duration of the underlying storage
      * mechanism, or permanent if possible.
      *
-     * @param mixed $value
-     *   The serializable value to be stored.
+     * @param mixed        $value
+     *                            The serializable value to be stored.
      * @param int|DateTime $ttl
-     *   - If an integer is passed, it is interpreted as the number of seconds
-     *     after which the item MUST be considered expired.
-     *   - If a DateTime object is passed, it is interpreted as the point in
-     *     time after which the the item MUST be considered expired.
-     *   - If no value is passed, a default value MAY be used. If none is set,
-     *     the value should be stored permanently or for as long as the
-     *     implementation allows.
+     *                            - If an integer is passed, it is interpreted as the number of seconds
+     *                            after which the item MUST be considered expired.
+     *                            - If a DateTime object is passed, it is interpreted as the point in
+     *                            time after which the the item MUST be considered expired.
+     *                            - If no value is passed, a default value MAY be used. If none is set,
+     *                            the value should be stored permanently or for as long as the
+     *                            implementation allows.
+     *
      * @return bool
-     *   Returns true if the item was successfully saved, or false if there was
-     *   an error.
+     *              Returns true if the item was successfully saved, or false if there was
+     *              an error.
      */
     public function set($value = null, $ttl = null)
     {
@@ -106,10 +107,10 @@ class FileItem implements ItemInterface
         }
 
         $data = [
-            "updated" => $now,
-            "value" => $value,
-            "key" => $this->key,
-            "ttl" => $ttl
+            'updated' => $now,
+            'value' => $value,
+            'key' => $this->key,
+            'ttl' => $ttl,
         ];
 
         return false !== file_put_contents($this->filename, serialize($data));
@@ -122,7 +123,7 @@ class FileItem implements ItemInterface
      * and calling get().
      *
      * @return bool
-     *   True if the request resulted in a cache hit.  False otherwise.
+     *              True if the request resulted in a cache hit.  False otherwise.
      */
     public function isHit()
     {
@@ -133,7 +134,7 @@ class FileItem implements ItemInterface
      * Removes the current key from the cache.
      *
      * @return \Psr\Cache\ItemInterface
-     *   The current item.
+     *                                  The current item.
      */
     public function delete()
     {
@@ -142,6 +143,7 @@ class FileItem implements ItemInterface
         }
         $this->hit = false;
         $this->value = null;
+
         return $this;
     }
 
@@ -152,7 +154,7 @@ class FileItem implements ItemInterface
      * reasons, which could result in a race condition between exists() and get().
      *
      * @return bool
-     *  True if item exists in the cache, false otherwise.
+     *              True if item exists in the cache, false otherwise.
      */
     public function exists()
     {
@@ -163,6 +165,7 @@ class FileItem implements ItemInterface
     /**
      * @param string $filename
      * @param string $key
+     *
      * @return FileItem
      */
     public static function fromFile($filename, $key)
@@ -176,18 +179,19 @@ class FileItem implements ItemInterface
         if (file_exists($filename)) {
 
             // fopen/fread/fclose since file_get_contents seems to not close the files properly
-            $fp = fopen($filename, "r");
+            $fp = fopen($filename, 'r');
 
             // if we for whatever reason can't open this file,
             // we have a cache miss
             if (false === $fp) {
-                $instance->hit =false;
+                $instance->hit = false;
+
                 return $instance;
             }
 
-            $contents ="";
+            $contents = '';
             while (!feof($fp)) {
-              $contents .= fread($fp, 8192);
+                $contents .= fread($fp, 8192);
             }
             fclose($fp);
 
@@ -196,7 +200,7 @@ class FileItem implements ItemInterface
             $now = new \DateTime();
 
             /**
-             * @var \DateTime $updated
+             * @var \DateTime
              */
             $updated = $data['updated'];
 
@@ -207,6 +211,7 @@ class FileItem implements ItemInterface
                 $instance->hit = true;
             }
         }
+
         return $instance;
     }
 }

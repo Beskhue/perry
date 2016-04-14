@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class Corporation extends Base
 {
@@ -114,13 +115,14 @@ class Corporation extends Base
         $converters['256x256'] = function ($value) { return new Reference($value); };
         $converters['64x64'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['32x32'] = isset($value->{'32x32'}) ? $converters['32x32']($value->{'32x32'}) : null;
             $return['logo'] = isset($value->{'logo'}) ? $converters['logo']($value->{'logo'}) : null;
             $return['128x128'] = isset($value->{'128x128'}) ? $converters['128x128']($value->{'128x128'}) : null;
             $return['256x256'] = isset($value->{'256x256'}) ? $converters['256x256']($value->{'256x256'}) : null;
             $return['64x64'] = isset($value->{'64x64'}) ? $converters['64x64']($value->{'64x64'}) : null;
+
             return $return;
         };
         $this->logo = $func($logo);
@@ -216,8 +218,9 @@ class Corporation extends Base
         // by Warringer\Types\Dict
         $converters = [];
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
+
             return $return;
         };
 
@@ -244,8 +247,9 @@ class Corporation extends Base
         // by Warringer\Types\Dict
         $converters = [];
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
+
             return $return;
         };
 
@@ -259,5 +263,4 @@ class Corporation extends Base
     {
         $this->deposit = new Reference($deposit);
     }
-
 }

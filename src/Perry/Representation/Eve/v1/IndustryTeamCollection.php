@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class IndustryTeamCollection extends Base
 {
@@ -37,16 +37,18 @@ class IndustryTeamCollection extends Base
         $converters['bonus'] = function ($value) { return $value; };
         $converters['specialization'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['bonus'] = isset($value->{'bonus'}) ? $converters['bonus']($value->{'bonus'}) : null;
             $return['specialization'] = isset($value->{'specialization'}) ? $converters['specialization']($value->{'specialization'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
@@ -60,33 +62,37 @@ class IndustryTeamCollection extends Base
         $converters['character'] = function ($value) { return $value; };
         $converters['bidAmount'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['character'] = isset($value->{'character'}) ? $converters['character']($value->{'character'}) : null;
             $return['bidAmount'] = isset($value->{'bidAmount'}) ? $converters['bidAmount']($value->{'bidAmount'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
         $converters['solarSystem'] = function ($value) { return $value; };
         $converters['bidAmount'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['characterBids'] = isset($value->{'characterBids'}) ? $converters['characterBids']($value->{'characterBids'}) : null;
             $return['solarSystem'] = isset($value->{'solarSystem'}) ? $converters['solarSystem']($value->{'solarSystem'}) : null;
             $return['bidAmount'] = isset($value->{'bidAmount'}) ? $converters['bidAmount']($value->{'bidAmount'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
@@ -96,7 +102,7 @@ class IndustryTeamCollection extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['solarSystem'] = isset($value->{'solarSystem'}) ? $converters['solarSystem']($value->{'solarSystem'}) : null;
             $return['specialization'] = isset($value->{'specialization'}) ? $converters['specialization']($value->{'specialization'}) : null;
@@ -109,6 +115,7 @@ class IndustryTeamCollection extends Base
             $return['costModifier'] = isset($value->{'costModifier'}) ? $converters['costModifier']($value->{'costModifier'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
 
@@ -134,5 +141,4 @@ class IndustryTeamCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

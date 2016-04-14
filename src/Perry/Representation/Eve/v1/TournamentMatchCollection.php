@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class TournamentMatchCollection extends Base
 {
@@ -42,7 +42,7 @@ class TournamentMatchCollection extends Base
         $converters['inProgress'] = function ($value) { return $value; };
         $converters['score'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['winner'] = isset($value->{'winner'}) ? $converters['winner']($value->{'winner'}) : null;
             $return['stats'] = isset($value->{'stats'}) ? $converters['stats']($value->{'stats'}) : null;
@@ -57,6 +57,7 @@ class TournamentMatchCollection extends Base
             $return['blueTeam'] = isset($value->{'blueTeam'}) ? $converters['blueTeam']($value->{'blueTeam'}) : null;
             $return['inProgress'] = isset($value->{'inProgress'}) ? $converters['inProgress']($value->{'inProgress'}) : null;
             $return['score'] = isset($value->{'score'}) ? $converters['score']($value->{'score'}) : null;
+
             return $return;
         };
 
@@ -82,5 +83,4 @@ class TournamentMatchCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

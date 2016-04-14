@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v2;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class Capsuleer extends Base
 {
@@ -18,9 +18,10 @@ class Capsuleer extends Base
         $converters = [];
         $converters['pattern'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['pattern'] = isset($value->{'pattern'}) ? $converters['pattern']($value->{'pattern'}) : null;
+
             return $return;
         };
         $this->portrait = $func($portrait);
@@ -31,5 +32,4 @@ class Capsuleer extends Base
     {
         $this->private = new Reference($private);
     }
-
 }

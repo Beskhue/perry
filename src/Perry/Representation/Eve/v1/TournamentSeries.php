@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class TournamentSeries extends Base
 {
@@ -47,11 +47,12 @@ class TournamentSeries extends Base
         $converters['isDecided'] = function ($value) { return $value; };
         $converters['isBye'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['team'] = isset($value->{'team'}) ? $converters['team']($value->{'team'}) : null;
             $return['isDecided'] = isset($value->{'isDecided'}) ? $converters['isDecided']($value->{'isDecided'}) : null;
             $return['isBye'] = isset($value->{'isBye'}) ? $converters['isBye']($value->{'isBye'}) : null;
+
             return $return;
         };
         $this->redTeam = $func($redTeam);
@@ -65,10 +66,11 @@ class TournamentSeries extends Base
         $converters['redTeam'] = function ($value) { return $value; };
         $converters['blueTeam'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['redTeam'] = isset($value->{'redTeam'}) ? $converters['redTeam']($value->{'redTeam'}) : null;
             $return['blueTeam'] = isset($value->{'blueTeam'}) ? $converters['blueTeam']($value->{'blueTeam'}) : null;
+
             return $return;
         };
         $this->matchesWon = $func($matchesWon);
@@ -95,11 +97,12 @@ class TournamentSeries extends Base
         $converters['isDecided'] = function ($value) { return $value; };
         $converters['isBye'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['team'] = isset($value->{'team'}) ? $converters['team']($value->{'team'}) : null;
             $return['isDecided'] = isset($value->{'isDecided'}) ? $converters['isDecided']($value->{'isDecided'}) : null;
             $return['isBye'] = isset($value->{'isBye'}) ? $converters['isBye']($value->{'isBye'}) : null;
+
             return $return;
         };
         $this->winner = $func($winner);
@@ -114,11 +117,12 @@ class TournamentSeries extends Base
         $converters['isDecided'] = function ($value) { return $value; };
         $converters['isBye'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['team'] = isset($value->{'team'}) ? $converters['team']($value->{'team'}) : null;
             $return['isDecided'] = isset($value->{'isDecided'}) ? $converters['isDecided']($value->{'isDecided'}) : null;
             $return['isBye'] = isset($value->{'isBye'}) ? $converters['isBye']($value->{'isBye'}) : null;
+
             return $return;
         };
         $this->loser = $func($loser);
@@ -139,11 +143,12 @@ class TournamentSeries extends Base
         $converters['isDecided'] = function ($value) { return $value; };
         $converters['isBye'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['team'] = isset($value->{'team'}) ? $converters['team']($value->{'team'}) : null;
             $return['isDecided'] = isset($value->{'isDecided'}) ? $converters['isDecided']($value->{'isDecided'}) : null;
             $return['isBye'] = isset($value->{'isBye'}) ? $converters['isBye']($value->{'isBye'}) : null;
+
             return $return;
         };
         $this->blueTeam = $func($blueTeam);
@@ -159,15 +164,15 @@ class TournamentSeries extends Base
         $converters['incomingRed'] = function ($value) { return new Reference($value); };
         $converters['incomingBlue'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['outgoingLoser'] = isset($value->{'outgoingLoser'}) ? $converters['outgoingLoser']($value->{'outgoingLoser'}) : null;
             $return['outgoingWinner'] = isset($value->{'outgoingWinner'}) ? $converters['outgoingWinner']($value->{'outgoingWinner'}) : null;
             $return['incomingRed'] = isset($value->{'incomingRed'}) ? $converters['incomingRed']($value->{'incomingRed'}) : null;
             $return['incomingBlue'] = isset($value->{'incomingBlue'}) ? $converters['incomingBlue']($value->{'incomingBlue'}) : null;
+
             return $return;
         };
         $this->structure = $func($structure);
     }
-
 }

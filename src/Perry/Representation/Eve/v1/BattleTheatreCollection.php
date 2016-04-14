@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class BattleTheatreCollection extends Base
 {
@@ -36,8 +36,9 @@ class BattleTheatreCollection extends Base
         $func = function ($value) { return new Reference($value); };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
@@ -45,7 +46,7 @@ class BattleTheatreCollection extends Base
         $converters['icon'] = function ($value) { return new Reference($value); };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['queue'] = isset($value->{'queue'}) ? $converters['queue']($value->{'queue'}) : null;
             $return['help'] = isset($value->{'help'}) ? $converters['help']($value->{'help'}) : null;
@@ -54,6 +55,7 @@ class BattleTheatreCollection extends Base
             $return['key'] = isset($value->{'key'}) ? $converters['key']($value->{'key'}) : null;
             $return['icon'] = isset($value->{'icon'}) ? $converters['icon']($value->{'icon'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
 
@@ -79,5 +81,4 @@ class BattleTheatreCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

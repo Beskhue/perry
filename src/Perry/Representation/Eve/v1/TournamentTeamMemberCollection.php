@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class TournamentTeamMemberCollection extends Base
 {
@@ -35,7 +35,7 @@ class TournamentTeamMemberCollection extends Base
         $converters['character'] = function ($value) { return new Reference($value); };
         $converters['icon'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['alliance'] = isset($value->{'alliance'}) ? $converters['alliance']($value->{'alliance'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
@@ -43,6 +43,7 @@ class TournamentTeamMemberCollection extends Base
             $return['self'] = isset($value->{'self'}) ? $converters['self']($value->{'self'}) : null;
             $return['character'] = isset($value->{'character'}) ? $converters['character']($value->{'character'}) : null;
             $return['icon'] = isset($value->{'icon'}) ? $converters['icon']($value->{'icon'}) : null;
+
             return $return;
         };
 
@@ -68,5 +69,4 @@ class TournamentTeamMemberCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

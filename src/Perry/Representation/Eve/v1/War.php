@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class War extends Base
 {
@@ -53,12 +54,13 @@ class War extends Base
         $converters['name'] = function ($value) { return $value; };
         $converters['icon'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
             $return['icon'] = isset($value->{'icon'}) ? $converters['icon']($value->{'icon'}) : null;
+
             return $return;
         };
 
@@ -97,7 +99,7 @@ class War extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['iskKilled'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['shipsKilled'] = isset($value->{'shipsKilled'}) ? $converters['shipsKilled']($value->{'shipsKilled'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
@@ -105,6 +107,7 @@ class War extends Base
             $return['icon'] = isset($value->{'icon'}) ? $converters['icon']($value->{'icon'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['iskKilled'] = isset($value->{'iskKilled'}) ? $converters['iskKilled']($value->{'iskKilled'}) : null;
+
             return $return;
         };
         $this->aggressor = $func($aggressor);
@@ -140,7 +143,7 @@ class War extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['iskKilled'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['shipsKilled'] = isset($value->{'shipsKilled'}) ? $converters['shipsKilled']($value->{'shipsKilled'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
@@ -148,6 +151,7 @@ class War extends Base
             $return['icon'] = isset($value->{'icon'}) ? $converters['icon']($value->{'icon'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['iskKilled'] = isset($value->{'iskKilled'}) ? $converters['iskKilled']($value->{'iskKilled'}) : null;
+
             return $return;
         };
         $this->defender = $func($defender);
@@ -158,5 +162,4 @@ class War extends Base
     {
         $this->id = $id;
     }
-
 }

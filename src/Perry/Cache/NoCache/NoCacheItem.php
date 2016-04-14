@@ -6,12 +6,9 @@ use Psr\Cache\ItemInterface;
 
 /**
  * Class NoCacheItem, a cache that doesn't.
- *
- * @package Perry\Cache\NoCache
  */
 class NoCacheItem implements ItemInterface
 {
-
     /**
      * @var string
      */
@@ -34,19 +31,20 @@ class NoCacheItem implements ItemInterface
     }
 
     /**
-     * always null since we don't cache
+     * always null since we don't cache.
+     *
      * @return \Serializable|mixed
      */
     public function get()
     {
-        return null;
+        return;
     }
 
     /**
      * as if..
      *
      * @param \Serializable $value
-     * @param int $ttl
+     * @param int           $ttl
      * @returns boolean
      */
     public function set($value = null, $ttl = null)
@@ -55,7 +53,8 @@ class NoCacheItem implements ItemInterface
     }
 
     /**
-     * we never hit the cache since we dont cache
+     * we never hit the cache since we dont cache.
+     *
      * @return bool
      */
     public function isHit()
@@ -67,7 +66,7 @@ class NoCacheItem implements ItemInterface
      * Removes the current key from the cache.
      *
      * @return \Psr\Cache\ItemInterface
-     *   The current item.
+     *                                  The current item.
      */
     public function delete()
     {
@@ -75,7 +74,8 @@ class NoCacheItem implements ItemInterface
     }
 
     /**
-     * nope doesnt exist. ever
+     * nope doesnt exist. ever.
+     *
      * @return bool
      */
     public function exists()

@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry;
 
 use Perry\Cache\CacheManager;
@@ -8,7 +9,6 @@ use PHPUnit_Framework_TestCase;
 
 class CacheManagerTest extends PHPUnit_Framework_TestCase
 {
-
     protected function setUp()
     {
         // we will setup within the tests
@@ -18,16 +18,15 @@ class CacheManagerTest extends PHPUnit_Framework_TestCase
     {
         Setup::getInstance()->cacheImplementation = new NoCachePool();
 
-        $this->assertTrue(CacheManager::getInstance()->save("mockurl", ['test' => 'something']));
-        $this->assertFalse(CacheManager::getInstance()->load("mockurl"));
+        $this->assertTrue(CacheManager::getInstance()->save('mockurl', ['test' => 'something']));
+        $this->assertFalse(CacheManager::getInstance()->load('mockurl'));
     }
 
     public function testFileCache()
     {
-        Setup::getInstance()->cacheImplementation = new FilePool("/tmp");
+        Setup::getInstance()->cacheImplementation = new FilePool('/tmp');
 
-        $this->assertTrue(CacheManager::getInstance()->save("mockurl", ['test' => 'something']));
-        $this->assertEquals(['test' => 'something'], CacheManager::getInstance()->load("mockurl"));
+        $this->assertTrue(CacheManager::getInstance()->save('mockurl', ['test' => 'something']));
+        $this->assertEquals(['test' => 'something'], CacheManager::getInstance()->load('mockurl'));
     }
-
 }

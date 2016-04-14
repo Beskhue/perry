@@ -9,21 +9,22 @@ use Perry\Setup;
 
 /**
  * An object which manages rate data for a rate limiter, which uses the data to
- * determine wait duration. Keeps track of:
+ * determine wait duration. Keeps track of:.
  *
  *  - Time at which the last request was made
  *  - The allowed interval between the last and next request
  */
 class MemoryRateLimitProvider implements RateLimitProvider
 {
-    private $lastRequest = null;
+    private $lastRequest;
     private $requestAllowance;
-    
+
     public function __constructor()
     {
-        $this->requestAllowance = 1000000 / (Setup::$requestsPerSecond);
+        $this->lastRequest = null;
+        $this->requestAllowance = 1000000 / Setup::$requestsPerSecond;
     }
-    
+
     /**
      * Returns when the last request was made.
      *

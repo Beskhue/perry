@@ -1,4 +1,7 @@
 <?php
+
 namespace Psr\Cache;
 
-interface InvalidArgumentException {}
+interface InvalidArgumentException
+{
+}

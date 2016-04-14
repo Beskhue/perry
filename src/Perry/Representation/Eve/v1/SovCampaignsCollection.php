@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class SovCampaignsCollection extends Base
 {
@@ -40,23 +40,25 @@ class SovCampaignsCollection extends Base
         $converters['score'] = function ($value) { return $value; };
         $converters['team'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['score'] = isset($value->{'score'}) ? $converters['score']($value->{'score'}) : null;
             $return['team'] = isset($value->{'team'}) ? $converters['team']($value->{'team'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
         $converters['defender'] = function ($value) { return $value; };
         $converters['constellation'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['campaignID'] = isset($value->{'campaignID'}) ? $converters['campaignID']($value->{'campaignID'}) : null;
             $return['eventType'] = isset($value->{'eventType'}) ? $converters['eventType']($value->{'eventType'}) : null;
@@ -67,6 +69,7 @@ class SovCampaignsCollection extends Base
             $return['scores'] = isset($value->{'scores'}) ? $converters['scores']($value->{'scores'}) : null;
             $return['defender'] = isset($value->{'defender'}) ? $converters['defender']($value->{'defender'}) : null;
             $return['constellation'] = isset($value->{'constellation'}) ? $converters['constellation']($value->{'constellation'}) : null;
+
             return $return;
         };
 
@@ -92,5 +95,4 @@ class SovCampaignsCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

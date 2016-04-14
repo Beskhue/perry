@@ -1,11 +1,11 @@
 <?php
+
 namespace Perry;
 
 use PHPUnit_Framework_TestCase;
 
 class ToolTest extends PHPUnit_Framework_TestCase
 {
-
     protected function setUp()
     {
     }
@@ -26,7 +26,7 @@ class ToolTest extends PHPUnit_Framework_TestCase
     public function testParseContentTypeToRepresentation()
     {
         $this->assertEquals(
-            "vnd.ccp.eve.Killmail-v1",
+            'vnd.ccp.eve.Killmail-v1',
             Tool::parseContentTypeToRepresentation('application/vnd.ccp.eve.Killmail-v1+json; charset=utf-8')
         );
 

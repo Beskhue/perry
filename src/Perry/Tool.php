@@ -1,19 +1,20 @@
 <?php
+
 namespace Perry;
 
 class Tool
 {
-
     /**
-     * Parse a content-type header to a representation name
+     * Parse a content-type header to a representation name.
      *
      * @param string $contentType
+     *
      * @return bool
      */
     public static function parseContentTypeToRepresentation($contentType)
     {
         $matches = array();
-        
+
         preg_match('/^application\/(.*)\+json; charset=utf-8$/im', $contentType, $matches);
 
         if (count($matches) == 2) {
@@ -25,10 +26,12 @@ class Tool
 
     /**
      * convert a representation name including version to the
-     * corresponding class
+     * corresponding class.
      *
-     * @param  string $inputRepresentation
+     * @param string $inputRepresentation
+     *
      * @return string
+     *
      * @throws \Exception
      */
     public static function parseRepresentationToClass($inputRepresentation)
@@ -37,15 +40,15 @@ class Tool
         $representation = substr($inputRepresentation, 0, -3);
 
         switch (substr($representation, 0, 7)) {
-            case "vnd.ccp": // EVE
-                $data = explode(".", $representation);
+            case 'vnd.ccp': // EVE
+                $data = explode('.', $representation);
                 array_shift($data);
                 array_shift($data);
                 array_shift($data);
                 $classname = '\Perry\Representation\Eve\\'.$version.'\\'.$data[0];
                 break;
-            case "net.3rd": // OldApi
-                $data = explode(".", $representation);
+            case 'net.3rd': // OldApi
+                $data = explode('.', $representation);
                 array_shift($data);
                 array_shift($data);
                 array_shift($data);
@@ -56,7 +59,7 @@ class Tool
                 }
                 break;
             default:
-                throw new \Exception("wtf, what representation is this? ".$inputRepresentation);
+                throw new \Exception('wtf, what representation is this? '.$inputRepresentation);
         }
 
         return $classname;

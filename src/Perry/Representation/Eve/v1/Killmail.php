@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class Killmail extends Base
 {
@@ -62,7 +62,7 @@ class Killmail extends Base
         $converters['securityStatus'] = function ($value) { return $value; };
         $converters['damageDone'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['alliance'] = isset($value->{'alliance'}) ? $converters['alliance']($value->{'alliance'}) : null;
             $return['shipType'] = isset($value->{'shipType'}) ? $converters['shipType']($value->{'shipType'}) : null;
@@ -73,6 +73,7 @@ class Killmail extends Base
             $return['finalBlow'] = isset($value->{'finalBlow'}) ? $converters['finalBlow']($value->{'finalBlow'}) : null;
             $return['securityStatus'] = isset($value->{'securityStatus'}) ? $converters['securityStatus']($value->{'securityStatus'}) : null;
             $return['damageDone'] = isset($value->{'damageDone'}) ? $converters['damageDone']($value->{'damageDone'}) : null;
+
             return $return;
         };
 
@@ -112,19 +113,21 @@ class Killmail extends Base
         $converters['flag'] = function ($value) { return $value; };
         $converters['itemType'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['quantityDropped'] = isset($value->{'quantityDropped'}) ? $converters['quantityDropped']($value->{'quantityDropped'}) : null;
             $return['singleton'] = isset($value->{'singleton'}) ? $converters['singleton']($value->{'singleton'}) : null;
             $return['quantityDestroyed'] = isset($value->{'quantityDestroyed'}) ? $converters['quantityDestroyed']($value->{'quantityDestroyed'}) : null;
             $return['flag'] = isset($value->{'flag'}) ? $converters['flag']($value->{'flag'}) : null;
             $return['itemType'] = isset($value->{'itemType'}) ? $converters['itemType']($value->{'itemType'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
@@ -132,7 +135,7 @@ class Killmail extends Base
         $converters['quantityDropped'] = function ($value) { return $value; };
         $converters['quantityDestroyed'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['singleton'] = isset($value->{'singleton'}) ? $converters['singleton']($value->{'singleton'}) : null;
             $return['itemType'] = isset($value->{'itemType'}) ? $converters['itemType']($value->{'itemType'}) : null;
@@ -140,17 +143,18 @@ class Killmail extends Base
             $return['flag'] = isset($value->{'flag'}) ? $converters['flag']($value->{'flag'}) : null;
             $return['quantityDropped'] = isset($value->{'quantityDropped'}) ? $converters['quantityDropped']($value->{'quantityDropped'}) : null;
             $return['quantityDestroyed'] = isset($value->{'quantityDestroyed'}) ? $converters['quantityDestroyed']($value->{'quantityDestroyed'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
-
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['alliance'] = isset($value->{'alliance'}) ? $converters['alliance']($value->{'alliance'}) : null;
             $return['faction'] = isset($value->{'faction'}) ? $converters['faction']($value->{'faction'}) : null;
@@ -159,6 +163,7 @@ class Killmail extends Base
             $return['character'] = isset($value->{'character'}) ? $converters['character']($value->{'character'}) : null;
             $return['shipType'] = isset($value->{'shipType'}) ? $converters['shipType']($value->{'shipType'}) : null;
             $return['items'] = isset($value->{'items'}) ? $converters['items']($value->{'items'}) : null;
+
             return $return;
         };
         $this->victim = $func($victim);
@@ -169,5 +174,4 @@ class Killmail extends Base
     {
         $this->war = new Reference($war);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry\Representation\OldApi\v1;
 
 use Perry\Representation\Base;
@@ -11,7 +12,7 @@ class Server extends Base
      */
     protected function setServerStatus($ref)
     {
-        $this->ServerStatus = new Reference($ref, "net.3rdpartyeve.thora.server.ServerStatus-v1");
+        $this->ServerStatus = new Reference($ref, 'net.3rdpartyeve.thora.server.ServerStatus-v1');
     }
 
     /**

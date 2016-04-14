@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class TournamentStaticSceneData extends Base
 {
@@ -25,7 +25,7 @@ class TournamentStaticSceneData extends Base
         $converters['z'] = function ($value) { return $value; };
         $converters['type'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
             $return['planetOrMoonInfo'] = isset($value->{'planetOrMoonInfo'}) ? $converters['planetOrMoonInfo']($value->{'planetOrMoonInfo'}) : null;
@@ -33,6 +33,7 @@ class TournamentStaticSceneData extends Base
             $return['x'] = isset($value->{'x'}) ? $converters['x']($value->{'x'}) : null;
             $return['z'] = isset($value->{'z'}) ? $converters['z']($value->{'z'}) : null;
             $return['type'] = isset($value->{'type'}) ? $converters['type']($value->{'type'}) : null;
+
             return $return;
         };
 
@@ -54,20 +55,22 @@ class TournamentStaticSceneData extends Base
         $func = function ($value) { return new Reference($value); };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
         $converters['type'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['item'] = isset($value->{'item'}) ? $converters['item']($value->{'item'}) : null;
             $return['points'] = isset($value->{'points'}) ? $converters['points']($value->{'points'}) : null;
             $return['character'] = isset($value->{'character'}) ? $converters['character']($value->{'character'}) : null;
             $return['turrets'] = isset($value->{'turrets'}) ? $converters['turrets']($value->{'turrets'}) : null;
             $return['type'] = isset($value->{'type'}) ? $converters['type']($value->{'type'}) : null;
+
             return $return;
         };
 
@@ -81,5 +84,4 @@ class TournamentStaticSceneData extends Base
     {
         $this->nebulaName = $nebulaName;
     }
-
 }

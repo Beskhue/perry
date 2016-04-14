@@ -13,12 +13,13 @@ class FilePool implements PoolInterface
 
     /**
      * @param string $path
+     *
      * @throws \Exception
      */
     public function __construct($path)
     {
         if (!file_exists($path) && !mkdir($path)) {
-            throw new \Exception("does not exist, and can not be created");
+            throw new \Exception('does not exist, and can not be created');
         }
 
         if (!is_dir($path) || !is_writable($path)) {
@@ -28,7 +29,6 @@ class FilePool implements PoolInterface
         $this->path = $path;
     }
 
-
     /**
      * Returns a Cache Item representing the specified key.
      *
@@ -36,12 +36,14 @@ class FilePool implements PoolInterface
      * a cache miss. It MUST NOT return null.
      *
      * @param string $key
-     *   The key for which to return the corresponding Cache Item.
+     *                    The key for which to return the corresponding Cache Item.
+     *
      * @return \Psr\Cache\ItemInterface
-     *   The corresponding Cache Item.
+     *                                  The corresponding Cache Item.
+     *
      * @throws \Psr\Cache\InvalidArgumentException
-     *   If the $key string is not a legal value a \Psr\Cache\InvalidArgumentException
-     *   MUST be thrown.
+     *                                             If the $key string is not a legal value a \Psr\Cache\InvalidArgumentException
+     *                                             MUST be thrown.
      */
     public function getItem($key)
     {
@@ -49,22 +51,23 @@ class FilePool implements PoolInterface
         // usually you want that to reflect the limitations put in place by psr-6
         $map = self::mapKey($key);
 
-        if (!file_exists($this->path .'/'. $map['dir'])) {
-            mkdir($this->path .'/'. $map['dir']);
+        if (!file_exists($this->path.'/'.$map['dir'])) {
+            mkdir($this->path.'/'.$map['dir']);
         }
 
-        return FileItem::fromFile($this->path .'/'. $map['dir'] . '/' . $map['file'], $key);
+        return FileItem::fromFile($this->path.'/'.$map['dir'].'/'.$map['file'], $key);
     }
 
     /**
      * Returns a traversable set of cache items.
      *
      * @param array $keys
-     *   An indexed array of keys of items to retrieve.
+     *                    An indexed array of keys of items to retrieve.
+     *
      * @return \Traversable
-     *   A traversable collection of Cache Items in the same order as the $keys
-     *   parameter, keyed by the cache keys of each item. If no items are found
-     *   an empty Traversable collection will be returned.
+     *                      A traversable collection of Cache Items in the same order as the $keys
+     *                      parameter, keyed by the cache keys of each item. If no items are found
+     *                      an empty Traversable collection will be returned.
      */
     public function getItems(array $keys)
     {
@@ -81,7 +84,7 @@ class FilePool implements PoolInterface
      * Deletes all items in the pool.
      *
      * @return \Psr\Cache\PoolInterface
-     *   The current pool.
+     *                                  The current pool.
      */
     public function clear()
     {
@@ -91,6 +94,7 @@ class FilePool implements PoolInterface
 
     /**
      * @param string $key
+     *
      * @return string
      */
     public static function mapKey($key)
@@ -100,8 +104,8 @@ class FilePool implements PoolInterface
         // we will use the first 4 as directory
         // to prevent issues on some filesystems
         return [
-            "file" => substr($key, 4),
-            "dir" => substr($key, 0, 4)
+            'file' => substr($key, 4),
+            'dir' => substr($key, 0, 4),
         ];
     }
 }

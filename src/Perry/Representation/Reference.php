@@ -1,13 +1,14 @@
 <?php
+
 namespace Perry\Representation;
 
 use Perry\Perry;
 use Perry\Representation\Interfaces\CanRefer;
 
 /**
- * Class Reference
+ * Class Reference.
+ *
  * @property string href
- * @package Perry\Representation\Eve\v1
  */
 class Reference extends Base implements CanRefer
 {
@@ -18,7 +19,7 @@ class Reference extends Base implements CanRefer
 
     /**
      * @param array|null|object|string $inputData
-     * @param string $referTo
+     * @param string                   $referTo
      */
     public function __construct($inputData, $referTo = null)
     {
@@ -27,10 +28,12 @@ class Reference extends Base implements CanRefer
     }
 
     /**
-     * call method, allows references to be called
+     * call method, allows references to be called.
      *
      * @param array $args
+     *
      * @return Base
+     *
      * @throws \Exception
      */
     public function call($args = array())
@@ -39,9 +42,10 @@ class Reference extends Base implements CanRefer
     }
 
     /**
-     * magic method to allow calling the object as if it was a function
+     * magic method to allow calling the object as if it was a function.
      *
      * @param array $args
+     *
      * @return Base
      */
     public function __invoke($args = array())

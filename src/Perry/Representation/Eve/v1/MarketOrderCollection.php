@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class MarketOrderCollection extends Base
 {
@@ -42,7 +43,7 @@ class MarketOrderCollection extends Base
         $converters['type'] = function ($value) { return new Reference($value); };
         $converters['id'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['buy'] = isset($value->{'buy'}) ? $converters['buy']($value->{'buy'}) : null;
             $return['issued'] = isset($value->{'issued'}) ? $converters['issued']($value->{'issued'}) : null;
@@ -57,6 +58,7 @@ class MarketOrderCollection extends Base
             $return['duration'] = isset($value->{'duration'}) ? $converters['duration']($value->{'duration'}) : null;
             $return['type'] = isset($value->{'type'}) ? $converters['type']($value->{'type'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
+
             return $return;
         };
 
@@ -82,5 +84,4 @@ class MarketOrderCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class CorporationCollection extends Base
 {
@@ -31,10 +32,11 @@ class CorporationCollection extends Base
         $converters['href'] = function ($value) { return new Uri($value); };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
 
@@ -60,5 +62,4 @@ class CorporationCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

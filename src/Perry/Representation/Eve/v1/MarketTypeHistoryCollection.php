@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class MarketTypeHistoryCollection extends Base
 {
@@ -35,7 +35,7 @@ class MarketTypeHistoryCollection extends Base
         $converters['volume'] = function ($value) { return $value; };
         $converters['date'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['orderCount'] = isset($value->{'orderCount'}) ? $converters['orderCount']($value->{'orderCount'}) : null;
             $return['lowPrice'] = isset($value->{'lowPrice'}) ? $converters['lowPrice']($value->{'lowPrice'}) : null;
@@ -43,6 +43,7 @@ class MarketTypeHistoryCollection extends Base
             $return['avgPrice'] = isset($value->{'avgPrice'}) ? $converters['avgPrice']($value->{'avgPrice'}) : null;
             $return['volume'] = isset($value->{'volume'}) ? $converters['volume']($value->{'volume'}) : null;
             $return['date'] = isset($value->{'date'}) ? $converters['date']($value->{'date'}) : null;
+
             return $return;
         };
 
@@ -68,5 +69,4 @@ class MarketTypeHistoryCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

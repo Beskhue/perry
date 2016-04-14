@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry\Representation\OldApi\v1;
 
 use Perry\Representation\Base;
@@ -12,7 +13,7 @@ class OldApi extends Base
      */
     protected function setCharacter($ref)
     {
-        $this->character = new Reference($ref, "net.3rdpartyeve.thora.Character-v1");
+        $this->character = new Reference($ref, 'net.3rdpartyeve.thora.Character-v1');
     }
 
     /**
@@ -20,7 +21,7 @@ class OldApi extends Base
      */
     public function setAccount($account)
     {
-        $this->account = new Reference($account, "net.3rdpartyeve.thora.Account-v1");
+        $this->account = new Reference($account, 'net.3rdpartyeve.thora.Account-v1');
     }
 
     /**
@@ -28,7 +29,7 @@ class OldApi extends Base
      */
     public function setApi($api)
     {
-        $this->api = new Reference($api, "net.3rdpartyeve.thora.Api-v1");
+        $this->api = new Reference($api, 'net.3rdpartyeve.thora.Api-v1');
     }
 
     /**
@@ -36,7 +37,7 @@ class OldApi extends Base
      */
     public function setCorporation($corporation)
     {
-        $this->corporation = new Reference($corporation, "net.3rdpartyeve.thora.Corporation-v1");
+        $this->corporation = new Reference($corporation, 'net.3rdpartyeve.thora.Corporation-v1');
     }
 
     /**
@@ -44,7 +45,7 @@ class OldApi extends Base
      */
     public function setEve($eve)
     {
-        $this->eve = new Reference($eve, "net.3rdpartyeve.thora.Eve-v1");
+        $this->eve = new Reference($eve, 'net.3rdpartyeve.thora.Eve-v1');
     }
 
     /**
@@ -52,7 +53,7 @@ class OldApi extends Base
      */
     public function setMap($map)
     {
-        $this->map = new Reference($map, "net.3rdpartyeve.thora.Map-v1");
+        $this->map = new Reference($map, 'net.3rdpartyeve.thora.Map-v1');
     }
 
     /**
@@ -60,7 +61,7 @@ class OldApi extends Base
      */
     public function setServer($server)
     {
-        $this->server = new Reference($server, "net.3rdpartyeve.thora.Server-v1");
+        $this->server = new Reference($server, 'net.3rdpartyeve.thora.Server-v1');
     }
 
     /**
@@ -103,6 +104,6 @@ class OldApi extends Base
      */
     public static function getInstance()
     {
-        return new OldApi(self::doGetRequest(Setup::$thoraUrl.'/', "net.3rdpartyeve.thora.OldApi-v1"));
+        return new self(self::doGetRequest(Setup::$thoraUrl.'/', 'net.3rdpartyeve.thora.OldApi-v1'));
     }
 }

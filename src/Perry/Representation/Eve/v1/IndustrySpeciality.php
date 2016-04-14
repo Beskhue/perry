@@ -1,9 +1,8 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Base as Base;
 
 class IndustrySpeciality extends Base
 {
@@ -26,9 +25,10 @@ class IndustrySpeciality extends Base
         $converters = [];
         $converters['id'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
+
             return $return;
         };
 
@@ -42,5 +42,4 @@ class IndustrySpeciality extends Base
     {
         $this->name = $name;
     }
-
 }

@@ -1,9 +1,8 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Base as Base;
 
 class Time extends Base
 {
@@ -14,5 +13,4 @@ class Time extends Base
     {
         $this->time = $time;
     }
-
 }

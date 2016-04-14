@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class TournamentSeriesCollection extends Base
 {
@@ -33,8 +33,9 @@ class TournamentSeriesCollection extends Base
         $func = function ($value) { return new Reference($value); };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
@@ -48,7 +49,7 @@ class TournamentSeriesCollection extends Base
         $converters['blueTeam'] = function ($value) { return $value; };
         $converters['structure'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['matchesInProgress'] = isset($value->{'matchesInProgress'}) ? $converters['matchesInProgress']($value->{'matchesInProgress'}) : null;
             $return['redTeam'] = isset($value->{'redTeam'}) ? $converters['redTeam']($value->{'redTeam'}) : null;
@@ -60,6 +61,7 @@ class TournamentSeriesCollection extends Base
             $return['length'] = isset($value->{'length'}) ? $converters['length']($value->{'length'}) : null;
             $return['blueTeam'] = isset($value->{'blueTeam'}) ? $converters['blueTeam']($value->{'blueTeam'}) : null;
             $return['structure'] = isset($value->{'structure'}) ? $converters['structure']($value->{'structure'}) : null;
+
             return $return;
         };
 
@@ -85,5 +87,4 @@ class TournamentSeriesCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

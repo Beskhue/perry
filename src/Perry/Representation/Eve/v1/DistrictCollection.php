@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class DistrictCollection extends Base
 {
@@ -55,7 +56,7 @@ class DistrictCollection extends Base
         $converters['updateInfrastructure'] = function ($value) { return new Reference($value); };
         $converters['updateReinforce'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['startDate'] = isset($value->{'startDate'}) ? $converters['startDate']($value->{'startDate'}) : null;
             $return['updateClonesQuote'] = isset($value->{'updateClonesQuote'}) ? $converters['updateClonesQuote']($value->{'updateClonesQuote'}) : null;
@@ -83,6 +84,7 @@ class DistrictCollection extends Base
             $return['planet'] = isset($value->{'planet'}) ? $converters['planet']($value->{'planet'}) : null;
             $return['updateInfrastructure'] = isset($value->{'updateInfrastructure'}) ? $converters['updateInfrastructure']($value->{'updateInfrastructure'}) : null;
             $return['updateReinforce'] = isset($value->{'updateReinforce'}) ? $converters['updateReinforce']($value->{'updateReinforce'}) : null;
+
             return $return;
         };
 
@@ -108,5 +110,4 @@ class DistrictCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

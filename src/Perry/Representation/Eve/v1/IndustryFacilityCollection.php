@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class IndustryFacilityCollection extends Base
 {
@@ -36,7 +36,7 @@ class IndustryFacilityCollection extends Base
         $converters['owner'] = function ($value) { return $value; };
         $converters['type'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['facilityID'] = isset($value->{'facilityID'}) ? $converters['facilityID']($value->{'facilityID'}) : null;
             $return['solarSystem'] = isset($value->{'solarSystem'}) ? $converters['solarSystem']($value->{'solarSystem'}) : null;
@@ -45,6 +45,7 @@ class IndustryFacilityCollection extends Base
             $return['tax'] = isset($value->{'tax'}) ? $converters['tax']($value->{'tax'}) : null;
             $return['owner'] = isset($value->{'owner'}) ? $converters['owner']($value->{'owner'}) : null;
             $return['type'] = isset($value->{'type'}) ? $converters['type']($value->{'type'}) : null;
+
             return $return;
         };
 
@@ -70,5 +71,4 @@ class IndustryFacilityCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

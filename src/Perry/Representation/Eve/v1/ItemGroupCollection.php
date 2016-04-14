@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class ItemGroupCollection extends Base
 {
@@ -51,5 +51,4 @@ class ItemGroupCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

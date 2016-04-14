@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class Alliance extends Base
 {
@@ -64,13 +65,14 @@ class Alliance extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['isNPC'] = isset($value->{'isNPC'}) ? $converters['isNPC']($value->{'isNPC'}) : null;
             $return['logo'] = isset($value->{'logo'}) ? $converters['logo']($value->{'logo'}) : null;
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
         $this->executorCorporation = $func($executorCorporation);
@@ -99,13 +101,14 @@ class Alliance extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['isNPC'] = isset($value->{'isNPC'}) ? $converters['isNPC']($value->{'isNPC'}) : null;
             $return['logo'] = isset($value->{'logo'}) ? $converters['logo']($value->{'logo'}) : null;
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
         $this->creatorCorporation = $func($creatorCorporation);
@@ -130,7 +133,7 @@ class Alliance extends Base
         $converters['portrait'] = function ($value) { return $value; };
         $converters['id'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
             $return['isNPC'] = isset($value->{'isNPC'}) ? $converters['isNPC']($value->{'isNPC'}) : null;
@@ -139,6 +142,7 @@ class Alliance extends Base
             $return['capsuleer'] = isset($value->{'capsuleer'}) ? $converters['capsuleer']($value->{'capsuleer'}) : null;
             $return['portrait'] = isset($value->{'portrait'}) ? $converters['portrait']($value->{'portrait'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
+
             return $return;
         };
         $this->creatorCharacter = $func($creatorCharacter);
@@ -153,11 +157,12 @@ class Alliance extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
         $this->capitalSystem = $func($capitalSystem);
@@ -174,13 +179,14 @@ class Alliance extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['name'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['isNPC'] = isset($value->{'isNPC'}) ? $converters['isNPC']($value->{'isNPC'}) : null;
             $return['logo'] = isset($value->{'logo'}) ? $converters['logo']($value->{'logo'}) : null;
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
+
             return $return;
         };
 
@@ -206,5 +212,4 @@ class Alliance extends Base
     {
         $this->name = $name;
     }
-
 }

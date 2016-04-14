@@ -5,14 +5,13 @@ namespace Perry\Cache\NoCache;
 use Psr\Cache\PoolInterface;
 
 /**
- * Class will always return non-hits
- *
- * @package Perry\Cache\NoCache
+ * Class will always return non-hits.
  */
 class NoCachePool implements PoolInterface
 {
     /**
      * @param string $key
+     *
      * @return NoCacheItem|\Psr\Cache\ItemInterface
      */
     public function getItem($key)
@@ -22,6 +21,7 @@ class NoCachePool implements PoolInterface
 
     /**
      * @param array $keys
+     *
      * @return array|\Traversable
      */
     public function getItems(array $keys)
@@ -30,6 +30,7 @@ class NoCachePool implements PoolInterface
         foreach ($keys as $key) {
             $result[$key] = $this->getItem($key);
         }
+
         return $result;
     }
 

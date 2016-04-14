@@ -2,10 +2,8 @@
 
 namespace Perry\Cache\File;
 
-
 class FilePoolTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var FilePool
      */
@@ -13,7 +11,7 @@ class FilePoolTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->fp = new FilePool("/tmp");
+        $this->fp = new FilePool('/tmp');
     }
 
     public function testClear()
@@ -21,21 +19,20 @@ class FilePoolTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Perry\Cache\File\FilePool', $this->fp->clear());
     }
 
-
     public function testGetItem()
     {
-        $item = $this->fp->getItem("empty");
-        $this->checkItem($item, "empty");
+        $item = $this->fp->getItem('empty');
+        $this->checkItem($item, 'empty');
     }
 
     public function testGetItems()
     {
-        $keys = ["empty2", "empty3"];
+        $keys = ['empty2', 'empty3'];
 
         $items = $this->fp->getItems($keys);
         $this->assertTrue(is_array($items));
 
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $items);
             $this->checkItem($items[$key], $key);
         }
@@ -50,7 +47,5 @@ class FilePoolTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($item->get());
         $this->assertEquals($key, $item->getKey());
         $item->delete();
-
     }
 }
- 

@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v2;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class ItemType extends Base
 {
@@ -46,17 +46,19 @@ class ItemType extends Base
         $converters['attributeName'] = function ($value) { return $value; };
         $converters['modifierType'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['modifierValue'] = isset($value->{'modifierValue'}) ? $converters['modifierValue']($value->{'modifierValue'}) : null;
             $return['attributeName'] = isset($value->{'attributeName'}) ? $converters['attributeName']($value->{'attributeName'}) : null;
             $return['modifierType'] = isset($value->{'modifierType'}) ? $converters['modifierType']($value->{'modifierType'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
@@ -64,13 +66,14 @@ class ItemType extends Base
         $converters['skeletalMeshFemale'] = function ($value) { return $value; };
         $converters['mVICProp'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['skeletalMeshMale'] = isset($value->{'skeletalMeshMale'}) ? $converters['skeletalMeshMale']($value->{'skeletalMeshMale'}) : null;
             $return['modifier'] = isset($value->{'modifier'}) ? $converters['modifier']($value->{'modifier'}) : null;
             $return['slotType'] = isset($value->{'slotType'}) ? $converters['slotType']($value->{'slotType'}) : null;
             $return['skeletalMeshFemale'] = isset($value->{'skeletalMeshFemale'}) ? $converters['skeletalMeshFemale']($value->{'skeletalMeshFemale'}) : null;
             $return['mVICProp'] = isset($value->{'mVICProp'}) ? $converters['mVICProp']($value->{'mVICProp'}) : null;
+
             return $return;
         };
         $this->extraAttributes = $func($extraAttributes);
@@ -97,11 +100,12 @@ class ItemType extends Base
         $converters['power'] = function ($value) { return $value; };
         $converters['heatDamage'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['cpu'] = isset($value->{'cpu'}) ? $converters['cpu']($value->{'cpu'}) : null;
             $return['power'] = isset($value->{'power'}) ? $converters['power']($value->{'power'}) : null;
             $return['heatDamage'] = isset($value->{'heatDamage'}) ? $converters['heatDamage']($value->{'heatDamage'}) : null;
+
             return $return;
         };
         $this->attributes = $func($attributes);
@@ -112,5 +116,4 @@ class ItemType extends Base
     {
         $this->description = $description;
     }
-
 }

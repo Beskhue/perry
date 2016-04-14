@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v3;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class Api extends Base
 {
@@ -78,11 +78,12 @@ class Api extends Base
         $converters['eve'] = function ($value) { return new Reference($value); };
         $converters['server'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['dust'] = isset($value->{'dust'}) ? $converters['dust']($value->{'dust'}) : null;
             $return['eve'] = isset($value->{'eve'}) ? $converters['eve']($value->{'eve'}) : null;
             $return['server'] = isset($value->{'server'}) ? $converters['server']($value->{'server'}) : null;
+
             return $return;
         };
         $this->motd = $func($motd);
@@ -180,10 +181,11 @@ class Api extends Base
         $converters['campaigns'] = function ($value) { return new Reference($value); };
         $converters['structures'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['campaigns'] = isset($value->{'campaigns'}) ? $converters['campaigns']($value->{'campaigns'}) : null;
             $return['structures'] = isset($value->{'structures'}) ? $converters['structures']($value->{'structures'}) : null;
+
             return $return;
         };
         $this->sovereignty = $func($sovereignty);
@@ -246,11 +248,12 @@ class Api extends Base
         $converters['eve'] = function ($value) { return $value; };
         $converters['server'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['dust'] = isset($value->{'dust'}) ? $converters['dust']($value->{'dust'}) : null;
             $return['eve'] = isset($value->{'eve'}) ? $converters['eve']($value->{'eve'}) : null;
             $return['server'] = isset($value->{'server'}) ? $converters['server']($value->{'server'}) : null;
+
             return $return;
         };
         $this->serviceStatus = $func($serviceStatus);
@@ -264,10 +267,11 @@ class Api extends Base
         $converters['dust'] = function ($value) { return $value; };
         $converters['eve'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['dust'] = isset($value->{'dust'}) ? $converters['dust']($value->{'dust'}) : null;
             $return['eve'] = isset($value->{'eve'}) ? $converters['eve']($value->{'eve'}) : null;
+
             return $return;
         };
         $this->userCounts = $func($userCounts);
@@ -281,10 +285,11 @@ class Api extends Base
         $converters['facilities'] = function ($value) { return new Reference($value); };
         $converters['systems'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['facilities'] = isset($value->{'facilities'}) ? $converters['facilities']($value->{'facilities'}) : null;
             $return['systems'] = isset($value->{'systems'}) ? $converters['systems']($value->{'systems'}) : null;
+
             return $return;
         };
         $this->industry = $func($industry);
@@ -298,10 +303,11 @@ class Api extends Base
         $converters['dust'] = function ($value) { return new Reference($value); };
         $converters['eve'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['dust'] = isset($value->{'dust'}) ? $converters['dust']($value->{'dust'}) : null;
             $return['eve'] = isset($value->{'eve'}) ? $converters['eve']($value->{'eve'}) : null;
+
             return $return;
         };
         $this->clients = $func($clients);
@@ -324,5 +330,4 @@ class Api extends Base
     {
         $this->serverName = $serverName;
     }
-
 }

@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class MarketTypeCollection extends Base
 {
@@ -31,10 +31,11 @@ class MarketTypeCollection extends Base
         $converters['marketGroup'] = function ($value) { return new Reference($value); };
         $converters['type'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['marketGroup'] = isset($value->{'marketGroup'}) ? $converters['marketGroup']($value->{'marketGroup'}) : null;
             $return['type'] = isset($value->{'type'}) ? $converters['type']($value->{'type'}) : null;
+
             return $return;
         };
 
@@ -60,5 +61,4 @@ class MarketTypeCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

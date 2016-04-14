@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry;
 
 use Perry\Cache\NoCache\NoCachePool;
@@ -20,21 +21,23 @@ final class Setup
      * @var \Psr\Cache\PoolInterface
      */
     public $cacheImplementation;
-    
+
     /**
-     * singleton implementation
+     * singleton implementation.
+     *
      * @return Setup
      */
     public static function getInstance()
     {
         if (!isset(self::$myInstance)) {
-            self::$myInstance = new Setup();
+            self::$myInstance = new self();
         }
+
         return self::$myInstance;
     }
 
     /**
-     * private constructor (singleton, creates defaults)
+     * private constructor (singleton, creates defaults).
      */
     private function __construct()
     {
@@ -42,11 +45,11 @@ final class Setup
         $this->cacheImplementation = new NoCachePool();
     }
 
-    public static $crestUrl = "http://public-crest.eveonline.com";
-    public static $thoraUrl = "http://thora.3rdpartyeve.net";
-    public static $bindToIp = "0.0.0.0:0";
+    public static $crestUrl = 'http://public-crest.eveonline.com';
+    public static $thoraUrl = 'http://thora.3rdpartyeve.net';
+    public static $bindToIp = '0.0.0.0:0';
     public static $cacheTTL = 300; // 5 minutes default
-    public static $userAgent = "( Unknown PHP Application )";
+    public static $userAgent = '( Unknown PHP Application )';
     public static $requestsPerSecond = 120;
     public static $concurrentRequests = 18;
     public static $batchSize = 500;

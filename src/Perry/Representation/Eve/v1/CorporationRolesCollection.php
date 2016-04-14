@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class CorporationRolesCollection extends Base
 {
@@ -34,13 +35,14 @@ class CorporationRolesCollection extends Base
         $converters['isDustRole'] = function ($value) { return $value; };
         $converters['isEveRole'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['isDustRole'] = isset($value->{'isDustRole'}) ? $converters['isDustRole']($value->{'isDustRole'}) : null;
             $return['isEveRole'] = isset($value->{'isEveRole'}) ? $converters['isEveRole']($value->{'isEveRole'}) : null;
+
             return $return;
         };
 
@@ -66,5 +68,4 @@ class CorporationRolesCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

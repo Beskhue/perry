@@ -1,25 +1,25 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
+
 use PHPUnit_Framework_TestCase;
 
 /**
  * @deprecated
  */
-class AllianceTest extends PHPUnit_Framework_TestCase {
-
+class AllianceTest extends PHPUnit_Framework_TestCase
+{
     private $alliance;
 
     protected function setUp()
     {
         $this->alliance = new Alliance(
-            file_get_contents(__DIR__ . '/../../../../mock/alliances_id.json')
+            file_get_contents(__DIR__.'/../../../../mock/alliances_id.json')
         );
-
     }
 
     public function testAllianceReferences()
     {
-
         $this->assertInstanceOf(
             '\Perry\Representation\Reference',
             $this->alliance->corporations[0]

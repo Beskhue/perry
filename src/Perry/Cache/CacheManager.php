@@ -17,7 +17,7 @@ class CacheManager
     public static function getInstance()
     {
         if (is_null(self::$myInstance)) {
-            self::$myInstance = new CacheManager();
+            self::$myInstance = new self();
         }
 
         return self::$myInstance;
@@ -25,7 +25,8 @@ class CacheManager
 
     /**
      * @param string $url
-     * @param array $data
+     * @param array  $data
+     *
      * @return bool
      */
     public function save($url, $data)
@@ -38,6 +39,7 @@ class CacheManager
 
     /**
      * @param string $url
+     *
      * @return array|false
      */
     public function load($url)
@@ -45,7 +47,6 @@ class CacheManager
         $data = Setup::getInstance()
             ->cacheImplementation
             ->getItem($this->urlToKey($url));
-
 
         if ($data->isHit()) {
             return $data->get();
@@ -55,8 +56,10 @@ class CacheManager
     }
 
     /**
-     * make sure the key is in a format that complies with PSR-6
+     * make sure the key is in a format that complies with PSR-6.
+     *
      * @param string $url
+     *
      * @return string
      */
     private function urlToKey($url)

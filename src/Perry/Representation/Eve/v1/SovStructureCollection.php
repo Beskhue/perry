@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class SovStructureCollection extends Base
 {
@@ -36,7 +36,7 @@ class SovStructureCollection extends Base
         $converters['vulnerableEndTime'] = function ($value) { return $value; };
         $converters['type'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['alliance'] = isset($value->{'alliance'}) ? $converters['alliance']($value->{'alliance'}) : null;
             $return['vulnerabilityOccupancyLevel'] = isset($value->{'vulnerabilityOccupancyLevel'}) ? $converters['vulnerabilityOccupancyLevel']($value->{'vulnerabilityOccupancyLevel'}) : null;
@@ -45,6 +45,7 @@ class SovStructureCollection extends Base
             $return['solarSystem'] = isset($value->{'solarSystem'}) ? $converters['solarSystem']($value->{'solarSystem'}) : null;
             $return['vulnerableEndTime'] = isset($value->{'vulnerableEndTime'}) ? $converters['vulnerableEndTime']($value->{'vulnerableEndTime'}) : null;
             $return['type'] = isset($value->{'type'}) ? $converters['type']($value->{'type'}) : null;
+
             return $return;
         };
 
@@ -70,5 +71,4 @@ class SovStructureCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

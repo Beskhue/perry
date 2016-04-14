@@ -1,9 +1,9 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Base as Base;
 
 class IndustrySystemCollection extends Base
 {
@@ -35,26 +35,29 @@ class IndustrySystemCollection extends Base
         $converters['activityID'] = function ($value) { return $value; };
         $converters['activityName'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['costIndex'] = isset($value->{'costIndex'}) ? $converters['costIndex']($value->{'costIndex'}) : null;
             $return['activityID'] = isset($value->{'activityID'}) ? $converters['activityID']($value->{'activityID'}) : null;
             $return['activityName'] = isset($value->{'activityName'}) ? $converters['activityName']($value->{'activityName'}) : null;
+
             return $return;
         };
 
             foreach ($values as $key => $value) {
-                 $values[$key] = $func($value);
+                $values[$key] = $func($value);
             }
+
            return $values;
         };
 
         $converters['solarSystem'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['systemCostIndices'] = isset($value->{'systemCostIndices'}) ? $converters['systemCostIndices']($value->{'systemCostIndices'}) : null;
             $return['solarSystem'] = isset($value->{'solarSystem'}) ? $converters['solarSystem']($value->{'solarSystem'}) : null;
+
             return $return;
         };
 
@@ -80,5 +83,4 @@ class IndustrySystemCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

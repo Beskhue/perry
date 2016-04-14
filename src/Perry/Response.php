@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry;
 
 class Response
@@ -24,7 +25,8 @@ class Response
     }
 
     /**
-     * convert object to string (return the data)
+     * convert object to string (return the data).
+     *
      * @return string
      */
     public function __toString()

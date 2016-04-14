@@ -1,9 +1,11 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
+
 use PHPUnit_Framework_TestCase;
 
-class KillmailTest extends PHPUnit_Framework_TestCase {
-
+class KillmailTest extends PHPUnit_Framework_TestCase
+{
     private $killmail;
     private $killmail_with_moon;
     private $killmail_with_weapontype;
@@ -11,15 +13,15 @@ class KillmailTest extends PHPUnit_Framework_TestCase {
     protected function setUp()
     {
         $this->killmail = new Killmail(
-            file_get_contents(__DIR__ . '/../../../../mock/kill.json')
+            file_get_contents(__DIR__.'/../../../../mock/kill.json')
         );
 
         $this->killmail_with_moon = new Killmail(
-            file_get_contents(__DIR__ . '/../../../../mock/kill_with_moon.json')
+            file_get_contents(__DIR__.'/../../../../mock/kill_with_moon.json')
         );
 
         $this->killmail_with_weapontype = new Killmail(
-            file_get_contents(__DIR__ . '/../../../../mock/kill_with_weapontype.json')
+            file_get_contents(__DIR__.'/../../../../mock/kill_with_weapontype.json')
         );
         //var_dump($this->killmail);die();
     }
@@ -42,7 +44,6 @@ class KillmailTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $this->killmail->attackerCount);
 
         $this->assertEquals(1, $this->killmail_with_moon->attackerCount);
-
     }
 
     public function testSolarSystem()
@@ -51,17 +52,15 @@ class KillmailTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(30005305, $this->killmail->solarSystem->id);
 
-        $this->assertEquals("http://regner1-ws:26004/solarsystems/30005305/", $this->killmail->solarSystem->href);
-        $this->assertEquals("Cistuvaert", $this->killmail->solarSystem->name);
+        $this->assertEquals('http://regner1-ws:26004/solarsystems/30005305/', $this->killmail->solarSystem->href);
+        $this->assertEquals('Cistuvaert', $this->killmail->solarSystem->name);
 
         $this->assertInstanceOf('\Perry\Representation\Reference', $this->killmail_with_moon->solarSystem);
 
         $this->assertEquals(30003343, $this->killmail_with_moon->solarSystem->id);
 
-
-        $this->assertEquals("http://regner1-ws:26004/solarsystems/30003343/", $this->killmail_with_moon->solarSystem->href);
-        $this->assertEquals("KFR-ZE", $this->killmail_with_moon->solarSystem->name);
-
+        $this->assertEquals('http://regner1-ws:26004/solarsystems/30003343/', $this->killmail_with_moon->solarSystem->href);
+        $this->assertEquals('KFR-ZE', $this->killmail_with_moon->solarSystem->name);
     }
 
     public function testAttackers()
@@ -109,15 +108,13 @@ class KillmailTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(27, $item->flag);
 
-
         $item = $this->killmail->victim->items[1];
 
         $this->assertEquals(1, $item->quantityDestroyed);
 
-
         $item = $this->killmail->victim->items[4];
         $this->assertEquals(1, count($item->items));
-        $this->assertEquals("Tritanium", $item->items[0]->itemType->name);
+        $this->assertEquals('Tritanium', $item->items[0]->itemType->name);
     }
 
     public function testMoon()

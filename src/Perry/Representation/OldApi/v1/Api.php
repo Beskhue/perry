@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry\Representation\OldApi\v1;
 
 use Perry\Representation\Base;
@@ -11,7 +12,7 @@ class Api extends Base
      */
     protected function setCallList($ref)
     {
-        $this->CallList = new Reference($ref, "net.3rdpartyeve.thora.api.CallList-v1");
+        $this->CallList = new Reference($ref, 'net.3rdpartyeve.thora.api.CallList-v1');
     }
 
     /**

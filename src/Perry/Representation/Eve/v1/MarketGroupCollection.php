@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v1;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class MarketGroupCollection extends Base
 {
@@ -34,13 +35,14 @@ class MarketGroupCollection extends Base
         $converters['types'] = function ($value) { return new Reference($value); };
         $converters['description'] = function ($value) { return $value; };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['parentGroup'] = isset($value->{'parentGroup'}) ? $converters['parentGroup']($value->{'parentGroup'}) : null;
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['name'] = isset($value->{'name'}) ? $converters['name']($value->{'name'}) : null;
             $return['types'] = isset($value->{'types'}) ? $converters['types']($value->{'types'}) : null;
             $return['description'] = isset($value->{'description'}) ? $converters['description']($value->{'description'}) : null;
+
             return $return;
         };
 
@@ -66,5 +68,4 @@ class MarketGroupCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

@@ -1,9 +1,10 @@
 <?php
+
 namespace Perry\Representation\Eve\v2;
 
-use \Perry\Representation\Reference as Reference;
-use \Perry\Representation\Uri as Uri;
-use \Perry\Representation\Base as Base;
+use Perry\Representation\Reference as Reference;
+use Perry\Representation\Uri as Uri;
+use Perry\Representation\Base as Base;
 
 class BloodlineCollection extends Base
 {
@@ -35,7 +36,7 @@ class BloodlineCollection extends Base
         $converters['id'] = function ($value) { return $value; };
         $converters['icon'] = function ($value) { return new Reference($value); };
 
-        $func = function ($value) use($converters) {
+        $func = function ($value) use ($converters) {
             $return = new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS);
             $return['race'] = isset($value->{'race'}) ? $converters['race']($value->{'race'}) : null;
             $return['description'] = isset($value->{'description'}) ? $converters['description']($value->{'description'}) : null;
@@ -43,6 +44,7 @@ class BloodlineCollection extends Base
             $return['href'] = isset($value->{'href'}) ? $converters['href']($value->{'href'}) : null;
             $return['id'] = isset($value->{'id'}) ? $converters['id']($value->{'id'}) : null;
             $return['icon'] = isset($value->{'icon'}) ? $converters['icon']($value->{'icon'}) : null;
+
             return $return;
         };
 
@@ -68,5 +70,4 @@ class BloodlineCollection extends Base
     {
         $this->previous = new Reference($previous);
     }
-
 }

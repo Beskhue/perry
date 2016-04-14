@@ -1,4 +1,5 @@
 <?php
+
 namespace Perry\Representation;
 
 use Perry\Response;
@@ -10,6 +11,7 @@ class Base
 
     /**
      * @param null|array|object|string $inputData
+     *
      * @throws \Exception
      */
     public function __construct($inputData)
@@ -28,21 +30,21 @@ class Base
     }
 
     /**
-     * clean input data
+     * clean input data.
      *
      * @param array|object|null|string $inputData
+     *
      * @throws \Exception
      * @returns array
      */
     private function cleanInputData($inputData)
     {
-
         switch (true) {
             case $inputData instanceof Response:
                 $inputData = json_decode((string) $inputData);
                 break;
             case is_null($inputData):
-                throw new \Exception("got NULL in Base Construtor");
+                throw new \Exception('got NULL in Base Construtor');
             case is_string($inputData):
                 $inputData = json_decode($inputData);
                 break;
@@ -61,7 +63,8 @@ class Base
 
     /**
      * @param string $key
-     * @return \Perry\Representation\Base|string|integer|float|null
+     *
+     * @return \Perry\Representation\Base|string|int|float|null
      */
     public function __get($key)
     {
@@ -69,20 +72,22 @@ class Base
             return $this->genericMembers[$key];
         }
 
-        return null;
+        return;
     }
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return \Perry\Representation\Base
+     *
      * @throws \Exception
      */
     public function __call($method, $args)
     {
         if (isset($this->{$method}) && $this->{$method} instanceof Interfaces\CanRefer) {
             /**
-             * @var Interfaces\CanRefer $reference
+             * @var Interfaces\CanRefer
              */
             $reference = $this->{$method};
 
@@ -93,8 +98,10 @@ class Base
     }
 
     /**
-     * Magic isset method, to ensure keys are found
+     * Magic isset method, to ensure keys are found.
+     *
      * @param string $key
+     *
      * @return bool
      */
     public function __isset($key)
@@ -105,7 +112,9 @@ class Base
     /**
      * @param string $url
      * @param string $representation
+     *
      * @throws \Exception
+     *
      * @return Response
      */
     protected static function doGetRequest($url, $representation)
