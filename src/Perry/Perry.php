@@ -2,6 +2,7 @@
 namespace Perry;
 
 use GuzzleHttp\Promise\Promise;
+use Perry\Setup;
 
 class Perry
 {
@@ -46,5 +47,59 @@ class Perry
         };
         
         return Setup::getInstance()->fetcher->doGetRequests($requests, $wrapFulfilled, $rejected);
+    }
+    
+    /**
+     * @param array $requests Array of requests.
+     * @param int $perBatch The number of requests to batch together.
+     * @return Generator A generator yielding request batches.
+     */
+    private static function _batches($requests, $perBatch = null)
+    {
+        $numRequests = count($requests);
+        
+        if(!$perBatch)
+        {
+            $perBatch = Setup::$batchSize;
+        }
+        
+        $numBatches = ceil($numRequests / $perBatch);
+        
+        for($i = 0; $i < $numBatches; $i++)
+        {
+            $idx = $i*$perBatch;
+            yield ['requests' => array_slice($requests, $idx, $perBatch), 'startIndex' => $idx];
+        }
+    }
+    
+    /**
+     * @param array $requests Array of requests. An array is either a url
+     * or an array of the form ['url' => ..., 'representation' => ...]. 
+     * Representations are optional, thus ['url' => ...] is also allowed.
+     * @param null|callable $fulfilled A callable of the form: function($response, $index)
+     * @param null|callable $rejected A callable of the form: function($reason, $index)
+     * @param int $perBatch The number of requests to batch together.
+     * @return Generator A generator yielding \GuzzleHttp\Promise\PromisorInterface objects.
+     */
+    public static function fromUrlsBatched($requests, $fulfilled = null, $rejected = null, $perBatch = null)
+    {
+        $batches = Perry::_batches($requests, $perBatch);
+        
+        foreach($batches AS $batch)
+        {
+            $startIdx = $batch['startIndex'];
+            
+            $wrapFulfilled = function($d, $index) use (&$fulfilled, &$batch)
+            {
+                $fulfilled($d, $index + $batch['startIndex']);
+            };
+            
+            $wrapRejected = function($d, $index) use (&$rejected, &$batch)
+            {
+                $rejected($d, $index + $batch['startIndex']);
+            };
+            
+            yield Perry::fromUrls($batch['requests'], $wrapFulfilled, $wrapRejected);
+        }
     }
 }

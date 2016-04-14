@@ -49,6 +49,7 @@ final class Setup
     public static $userAgent = "( Unknown PHP Application )";
     public static $requestsPerSecond = 120;
     public static $concurrentRequests = 18;
+    public static $batchSize = 500;
 
     /**
      * @var array can be used to pass additional options to the fetcher
