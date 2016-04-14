@@ -28,13 +28,11 @@ class Reference extends Base implements CanRefer
     }
 
     /**
-     * call method, allows references to be called.
+     * Allows references to be called.
      *
      * @param array $args
      *
-     * @return Base
-     *
-     * @throws \Exception
+     * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Representation\Base
      */
     public function call($args = array())
     {
@@ -42,11 +40,11 @@ class Reference extends Base implements CanRefer
     }
 
     /**
-     * magic method to allow calling the object as if it was a function.
+     * Magic method to allow calling the object as if it was a function.
      *
      * @param array $args
      *
-     * @return Base
+     * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Representation\Base
      */
     public function __invoke($args = array())
     {

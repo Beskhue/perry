@@ -33,9 +33,7 @@ class Uri extends Base implements CanRefer
      *
      * @param array $args
      *
-     * @return Base
-     *
-     * @throws \Exception
+     * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Representation\Base
      */
     public function call($args = array())
     {
@@ -47,7 +45,7 @@ class Uri extends Base implements CanRefer
      *
      * @param array $args
      *
-     * @return Base
+     * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Representation\Base
      */
     public function __invoke($args = array())
     {
