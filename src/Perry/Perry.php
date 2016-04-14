@@ -13,7 +13,7 @@ class Perry
     /**
      * @param string $url
      * @param null|string $representation
-     * @return \GuzzleHttp\Promise\Promise that will resolve into a \Perry\Representation\Base
+     * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Representation\Base
      */
     public static function fromUrl($url, $representation = null)
     {
@@ -27,5 +27,24 @@ class Perry
         );
                 
         return $promise;
+    }
+    
+    /**
+     * @param array $requests Array of requests. An array is either a url
+     * or an array of the form ['url' => ..., 'representation' => ...]. 
+     * Representations are optional, thus ['url' => ...] is also allowed.
+     * @param null|callable $fulfilled A callable of the form: function($response, $index)
+     * @param null|callable $rejected A callable of the form: function($reason, $index)
+     * @return \GuzzleHttp\Promise\PromisorInterface
+     */
+    public static function fromUrls($requests, $fulfilled = null, $rejected = null)
+    {
+        $wrapFulfilled = function($data, $index) use (&$fulfilled)
+        {
+            $classname = Tool::parseRepresentationToClass($data->representation);
+            $fulfilled(new $classname($data), $index);
+        };
+        
+        return Setup::getInstance()->fetcher->doGetRequests($requests, $wrapFulfilled, $rejected);
     }
 }

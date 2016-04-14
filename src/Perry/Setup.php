@@ -48,6 +48,7 @@ final class Setup
     public static $cacheTTL = 300; // 5 minutes default
     public static $userAgent = "( Unknown PHP Application )";
     public static $requestsPerSecond = 150;
+    public static $concurrentRequests = 20;
 
     /**
      * @var array can be used to pass additional options to the fetcher
