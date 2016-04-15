@@ -60,7 +60,7 @@ class Perry
                 if ($fufilled) {
                     $fulfilled(Perry::createRepresentation($data), $index);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 if ($rejected) {
                     $rejected($e, $index);
                 }
