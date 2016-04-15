@@ -11,6 +11,10 @@ also this library is not to be considered complete or stable, most likely
 backward compatibility will break during further development.
 Do not use this if you don't know what you are doing.
 
+## Documentation and Help
+- [Documentation](https://perry.readthedocs.org/en/3.0.0-dev/).
+- Forum thread for help to come at the first release of Perry version 3.
+
 ## Status on the Completeness:
 Implemented:
 - https://forums.dust514.com/default.aspx?g=posts&t=103783 (districts have alot of references which dont resolve yet, also for some of those references i made guessing on what exactly they might refer to, so even when those are published there might be some extra work needed)
@@ -27,9 +31,6 @@ Also you might find some files to access Thora, a Proxy for the old API,
 which is mostly not working yet, so don't use it.
 
 Also have a look at the bottom of this README, it contains a list of all known issues.
-
-
-
 
 ## USAGE
 ### Cache
@@ -170,7 +171,6 @@ foreach ($districtCollection->items as $district) {
 ## Known Issues
 There are a hand full of known issues. If you want to help with fixing them, pull requests are welcome.
 
-- CREST has a Uri type, which links to other parts of crest. It is not identical with a Reference, and not implemented yet - so at the moment a uri type will return a string with the uri, rather than an executeable object. This will be fixed soon.
 - From Version 1.0.0 on the original conveniance methods like ```\Perry\Representation\Eve\v1\DistrictCollection::getInstance();``` do not work anymore, this is on purpose
 - CREST dictionaries feature keys like "32x32", PHP will do a parse error on $object->32x32. You can either access those members by $object->{'32x32'}; or by using them as an array instead $object['32x32']. The later should be the preffered variant.
 - A lot of endpoints that are referenced to within CREST are not public available. There is nothing that can be done about that except if CCP opens those.
