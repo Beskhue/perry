@@ -25,16 +25,17 @@ class Tool
     }
 
     /**
-     * convert a representation name including version to the
-     * corresponding class.
+     * convert a representation name including version to an
+     * array of namespace and class parts.
      *
      * @param string $inputRepresentation
      *
-     * @return string
+     * @return array Class parts, e.g.:
+     *               ['Representation', 'Eve', '1', 'Alliance']
      *
      * @throws \Exception
      */
-    public static function parseRepresentationToClass($inputRepresentation)
+    public static function parseRepresentation($inputRepresentation)
     {
         $version = substr($inputRepresentation, -2);
         $representation = substr($inputRepresentation, 0, -3);
@@ -45,23 +46,45 @@ class Tool
                 array_shift($data);
                 array_shift($data);
                 array_shift($data);
-                $classname = '\Perry\Representation\Eve\\'.$version.'\\'.$data[0];
+                
+                $parsed = ['Perry', 'Representation', 'Eve', $version, $data[0]];
                 break;
             case 'net.3rd': // OldApi
                 $data = explode('.', $representation);
                 array_shift($data);
                 array_shift($data);
                 array_shift($data);
-
-                $classname = '\Perry\Representation\OldApi\\'.$version.'\\'.$data[0];
+                
+                $parsed = ['Perry', 'Representation', 'OldApi', $version, $data[0]];
+                
                 if (count($data) > 1) {
-                    $classname .= '\\'.$data[1];
+                    $parsed[] = $data[1];
                 }
                 break;
             default:
-                throw new \Exception('wtf, what representation is this? '.$inputRepresentation);
+                throw new \Exception('Malformed representation string: '.$inputRepresentation);
         }
 
+        return $parsed;
+    }
+    
+    /**
+     * convert a representation name including version to the
+     * corresponding class.
+     *
+     * @param string $inputRepresentation
+     *
+     * @return string Class name, e.g.: 
+     *                \\Perry\\Representation\\Eve\\1\\Alliance
+     *
+     * @throws \Exception
+     */
+    public static function parseRepresentationToClass($inputRepresentation)
+    {
+        $parsed = self::parseRepresentation($inputRepresentation);
+
+        $classname = "\\" . implode("\\", $parsed);
+        
         return $classname;
     }
 }
