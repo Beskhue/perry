@@ -71,7 +71,7 @@ class GuzzleFetcher implements CanFetch
      *
      * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Psr\Http\Message\ResponseInterface
      */
-    private function _responsePromise($url, $representation)
+    private function responsePromise($url, $representation)
     {
         if ($response = CacheManager::getInstance()->load($url)) {
             $response->_fromCache = true;
@@ -97,7 +97,7 @@ class GuzzleFetcher implements CanFetch
      */
     public function doGetRequest($url, $representation)
     {
-        $responsePromise = $this->_responsePromise($url, $representation);
+        $responsePromise = $this->responsePromise($url, $representation);
         $promise = $responsePromise->then(
             function ($response) use ($url, $representation) {
                 $data = $response->getBody();
@@ -145,7 +145,7 @@ class GuzzleFetcher implements CanFetch
         $guzzleRequests = function ($requests) use (&$fulfilled) {
             foreach ($requests as $request) {
                 yield function () use (&$request) {
-                    return $this->_responsePromise($request['url'], $request['representation']);
+                    return $this->responsePromise($request['url'], $request['representation']);
                 };
             }
         };
