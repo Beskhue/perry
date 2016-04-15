@@ -10,13 +10,14 @@ class Perry
     public static $version = '3.0.0-dev';
 
     /**
+     * @param string                             $url Original request url.
      * @param Psr\Http\Message\ResponseInterface $data 
      *
      * @throws Exception when the representation class does not exist.
      * 
      * @return \Perry\Representation\Base
      */
-    private static function createRepresentation($data)
+    private static function createRepresentation($url, $data)
     {
         $classname = Tool::parseRepresentationToClass($data->representation);
         if (class_exists($classname)) {
@@ -55,10 +56,16 @@ class Perry
      */
     public static function fromUrls($requests, $fulfilled = null, $rejected = null)
     {
-        $wrapFulfilled = function ($data, $index) use (&$fulfilled, &$rejected) {
+        $wrapFulfilled = function ($data, $index) use (&$requests, &$fulfilled, &$rejected) {
             try {
-                if ($fufilled) {
-                    $fulfilled(Perry::createRepresentation($data), $index);
+                if ($fulfilled) {
+                    if (is_array($requests[$index])) {
+                        $url = $requests[$index]['url'];
+                    } else {
+                        $url = $requests[$index];
+                    }
+                    
+                    $fulfilled(Perry::createRepresentation($url, $data), $index);
                 }
             } catch (\Exception $e) {
                 if ($rejected) {
@@ -66,7 +73,7 @@ class Perry
                 }
             }
         };
-
+        
         return Setup::getInstance()->fetcher->doGetRequests($requests, $wrapFulfilled, $rejected);
     }
 

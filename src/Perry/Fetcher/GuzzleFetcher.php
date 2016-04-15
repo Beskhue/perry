@@ -142,7 +142,7 @@ class GuzzleFetcher implements CanFetch
             }
         }
 
-        $guzzleRequests = function ($requests) use (&$fulfilled) {
+        $guzzleRequests = function ($requests) {
             foreach ($requests as $request) {
                 yield function () use (&$request) {
                     return $this->responsePromise($request['url'], $request['representation']);
@@ -167,7 +167,7 @@ class GuzzleFetcher implements CanFetch
                     if (!isset($response->_fromCache)) {
                         CacheManager::getInstance()->save($url, $response);
                     }
-
+                    
                     $fulfilled(new Response($data, $representation), $index);
                 },
             'rejected' => function ($reason, $index) use (&$rejected) {
