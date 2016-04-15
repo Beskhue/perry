@@ -46,6 +46,7 @@ final class Setup
     }
 
     public static $crestUrl = 'http://public-crest.eveonline.com';
+    public static $authCrestUrl = 'https://crest-tq.eveonline.com';
     public static $thoraUrl = 'http://thora.3rdpartyeve.net';
     public static $bindToIp = '0.0.0.0:0';
     public static $cacheTTL = 300; // 5 minutes default
