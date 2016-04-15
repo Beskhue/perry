@@ -10,6 +10,23 @@ class Perry
     public static $version = '3.0.0-dev';
 
     /**
+     * @param Psr\Http\Message\ResponseInterface $data 
+     *
+     * @throws Exception when the representation class does not exist.
+     * 
+     * @return \Perry\Representation\Base
+     */
+    private static function createRepresentation($data)
+    {
+        $classname = Tool::parseRepresentationToClass($data->representation);
+        if (class_exists($classname)) {
+            return new $classname($data);
+        } else {
+            throw new \Exception(sprintf("No class for representation %s", $data->representation));
+        }
+    }
+    
+    /**
      * @param string      $url
      * @param null|string $representation
      *
@@ -20,9 +37,7 @@ class Perry
         $dataPromise = Setup::getInstance()->fetcher->doGetRequest($url, $representation);
         $promise = $dataPromise->then(
             function ($data) {
-                $classname = Tool::parseRepresentationToClass($data->representation);
-
-                return new $classname($data);
+                return Perry::createRepresentation($data);
             }
         );
 
@@ -40,9 +55,16 @@ class Perry
      */
     public static function fromUrls($requests, $fulfilled = null, $rejected = null)
     {
-        $wrapFulfilled = function ($data, $index) use (&$fulfilled) {
-            $classname = Tool::parseRepresentationToClass($data->representation);
-            $fulfilled(new $classname($data), $index);
+        $wrapFulfilled = function ($data, $index) use (&$fulfilled, &$rejected) {
+            try {
+                if ($fufilled) {
+                    $fulfilled(Perry::createRepresentation($data), $index);
+                }
+            } catch (Exception $e) {
+                if ($rejected) {
+                    $rejected($e, $index);
+                }
+            }
         };
 
         return Setup::getInstance()->fetcher->doGetRequests($requests, $wrapFulfilled, $rejected);
@@ -88,11 +110,15 @@ class Perry
             $startIdx = $batch['startIndex'];
 
             $wrapFulfilled = function ($d, $index) use (&$fulfilled, &$batch) {
-                $fulfilled($d, $index + $batch['startIndex']);
+                if ($fulfilled) {
+                    $fulfilled($d, $index + $batch['startIndex']);
+                }
             };
 
             $wrapRejected = function ($d, $index) use (&$rejected, &$batch) {
-                $rejected($d, $index + $batch['startIndex']);
+                if ($rejected) {
+                    $rejected($d, $index + $batch['startIndex']);
+                }
             };
 
             yield self::fromUrls($batch['requests'], $wrapFulfilled, $wrapRejected);
