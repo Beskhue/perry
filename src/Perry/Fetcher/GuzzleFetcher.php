@@ -31,22 +31,18 @@ class GuzzleFetcher implements CanFetch
     }
 
     /**
-     * form the opts array.
+     * Configure the options array.
      *
-     * @param string $representation
+     * @param array $options Current options
      *
-     * @return array
+     * @return array Configured ption
      */
-    private function getOpts($representation)
-    {
+    private function configureOptions($currentOptions)
+    {  
         $headers = [
             'Accept-language' => 'en',
             'User-Agent' => 'Perry/'.Perry::$version.' '.Setup::$userAgent,
         ];
-
-        if (!is_null($representation)) {
-            $headers['Accept'] = "application/$representation+json";
-        }
 
         $config = [];
 
@@ -60,20 +56,23 @@ class GuzzleFetcher implements CanFetch
         ];
 
         // merge in the ons from the options array
-        $options = array_merge_recursive(Setup::$fetcherOptions, $options);
+        $options = array_merge_recursive(Setup::$fetcherOptions, $currentOptions, $options);
 
         return $options;
     }
 
     /**
-     * @param string $url
+     * @param string $method
+     * @param string $uri
      * @param string $representation
      *
      * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Psr\Http\Message\ResponseInterface
      */
-    private function responsePromise($url, $representation)
+    private function responsePromise($method, $uri = null, $options = [])
     {
-        if ($response = CacheManager::getInstance()->load($url)) {
+        $options = $this->configureOptions($options);
+        
+        if ($method == 'get' && $response = CacheManager::getInstance()->load($uri)) {
             $response->_fromCache = true;
             $promise = new Promise(
                 function () use (&$promise, &$response) {
@@ -81,25 +80,28 @@ class GuzzleFetcher implements CanFetch
                 }
             );
         } else {
-            $promise = $this->guzzleClient->requestAsync('GET', $url, $this->getOpts($representation));
+            $promise = $this->guzzleClient->requestAsync($method, $uri, $options);
         }
 
         return $promise;
     }
-
+    
     /**
-     * @param string $url
-     * @param string $representation
+     * Asynchronously send a request to a CREST resource.
      *
-     * @throws \Exception
+     * @param string $method  The HTTP method to use.
+     * @param string $uri     The URI the request if targeting.
+     * @param array  $options The request options.
      *
      * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Response
      */
-    public function doGetRequest($url, $representation)
+    public function requestAsync($method, $uri = null, $options = [])
     {
-        $responsePromise = $this->responsePromise($url, $representation);
+        $responsePromise = $this->responsePromise($method, $uri, $options);
         $promise = $responsePromise->then(
-            function ($response) use ($url, $representation) {
+            function ($response) use (&$method, &$uri, &$options) {
+                $representation = isset($options['representation']) ? $options['representation'] : null;
+                
                 $data = $response->getBody();
                 $data = (String) $data;
 
@@ -109,8 +111,8 @@ class GuzzleFetcher implements CanFetch
                     }
                 }
 
-                if (!isset($response->_fromCache)) {
-                    CacheManager::getInstance()->save($url, $response);
+                if ($method == 'get' && !isset($response->_fromCache)) {
+                    CacheManager::getInstance()->save($uri, $response);
                 }
 
                 return new Response($data, $representation);
@@ -121,39 +123,33 @@ class GuzzleFetcher implements CanFetch
     }
 
     /**
-     * @param array         $requests  Array of requests. A request is either a url
-     *                                 or an array of the form ['url' => ..., 'representation' => ...]. 
-     *                                 Representations are optional, thus ['url' => ...] is also allowed.
-     * @param null|callable $fulfilled A callable of the form: function($response, $index)
-     * @param null|callable $rejected  A callable of the form: function($reason, $index)
+     * Create a request pool that asynchronously sends requests to CREST resources.
+     * 
+     * @param array         $requestsSettings  Array of request settings.
+     * @param null|callable $fulfilled         A callable of the form: function($response, $index).
+     * @param null|callable $rejected          A callable of the form: function($reason, $index).
      *
      * @return \GuzzleHttp\Promise\PromisorInterface
      */
-    public function doGetRequests($requests, $fulfilled, $rejected)
+    public function requestsAsync($requestsSettings, $fulfilled = null, $rejected = null)
     {
-        // Make request arrays/strings consistent
-        foreach ($requests as &$request) {
-            if (is_array($request)) {
-                if (!isset($request['representation']) || (isset($request['representation']) && !$request['representation'])) {
-                    $request['representation'] = null;
-                }
-            } else {
-                $request = ['url' => $request, 'representation' => null];
-            }
-        }
-
-        $guzzleRequests = function ($requests) {
-            foreach ($requests as $request) {
-                yield function () use (&$request) {
-                    return $this->responsePromise($request['url'], $request['representation']);
+        $guzzleRequests = function ($requestsSettings) {
+            foreach ($requestsSettings as $requestSettings) {
+                yield function () use (&$requestSettings) {
+                    return $this->responsePromise(
+                        $requestSettings['method'], 
+                        $requestSettings['uri'], 
+                        $requestSettings['options']
+                    );
                 };
             }
         };
 
-        $pool = new Pool($this->guzzleClient, $guzzleRequests($requests), [
+        $pool = new Pool($this->guzzleClient, $guzzleRequests($requestsSettings), [
             'concurrency' => Setup::$concurrentRequests,
-            'fulfilled' => function ($response, $index) use (&$requests, &$fulfilled) {
-                    $url = $requests[$index]['url'];
+            'fulfilled' => function ($response, $index) use (&$requestsSettings, &$fulfilled) {
+                    $method = $requestsSettings[$index]['method'];
+                    $uri = $requestsSettings[$index]['uri'];
 
                     $data = $response->getBody();
                     $data = (String) $data;
@@ -164,8 +160,8 @@ class GuzzleFetcher implements CanFetch
                         }
                     }
 
-                    if (!isset($response->_fromCache)) {
-                        CacheManager::getInstance()->save($url, $response);
+                    if ($method == 'get' && !isset($response->_fromCache)) {
+                        CacheManager::getInstance()->save($uri, $response);
                     }
                     
                     $fulfilled(new Response($data, $representation), $index);

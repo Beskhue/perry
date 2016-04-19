@@ -2,6 +2,7 @@
 
 namespace Perry\Fetcher;
 
+use GuzzleHttp\Promise\Promise;
 use Perry\Cache\CacheManager;
 use Perry\Perry;
 use Perry\Response;
@@ -16,64 +17,65 @@ use Perry\Tool;
 class FileFetcher implements CanFetch
 {
     /**
-     * form the opts array.
+     * Configure the options array.
      *
-     * @param string $representation
+     * @param string $method HTTP method.
+     * @param array  $options Current options
      *
-     * @return array
+     * @return array Configured ption
      */
-    private function getOpts($representation)
-    {
-        $opts = array(
-            'http' => array(
-                'method' => 'GET',
-            ),
+    private function configureOptions($method, $currentOptions)
+    {  
+        $options = [
+            'http' => [
+                'method' => strtoupper($method),
+                'header' => "Accept-language: en\r\n"
+                            ."User-Agent: Perry/".Perry::$version." ".Setup::$userAgent."\r\n"
+                            .(isset($currentOptions['headers']) ? $currentOptions['headers'].join('\r\n') . "\r\n" : '')
+            ],
             'socket' => [
                 'bindto' => Setup::$bindToIp,
-            ],
-        );
+            ]
+        ];
 
-        if (is_null($representation)) {
-            $header = "Accept-language: en\r\nUser-Agent: Perry/".Perry::$version.' '.Setup::$userAgent."\r\n";
-        } else {
-            $header = "Accept-language: en\r\nUser-Agent: Perry/".
-                Perry::$version.' '.Setup::$userAgent."\r\nAccept: application/$representation+json\r\n";
-        }
+        // merge in the ons from the options array
+        $options = array_merge_recursive(Setup::$fetcherOptions, $currentOptions, $options);
 
-        $opts['http']['header'] = $header;
-
-        $opts = array_merge_recursive(Setup::$fetcherOptions, $opts);
-
-        return $opts;
+        return $options;
     }
+    
 
     /**
-     * @param string $url
-     * @param string $representation
+     * Asynchronously send a request to a CREST resource.
      *
-     * @throws \Exception
+     * @param string $method  The HTTP method to use.
+     * @param string $uri     The URI the request if targeting.
+     * @param array  $options The request options.
      *
-     * @return \GuzzleHttp\Promise\Promise that will resolve into a \Perry\Response
+     * @return \GuzzleHttp\Promise\PromiseInterface that will resolve into a \Perry\Response
      */
-    public function doGetRequest($url, $representation)
+    public function requestAsync($method, $uri = null, $options = null)
     {
         $promise = new Promise(
-            function () use (&$promise, &$url, &$representation) {
-                if ($cachedData = CacheManager::getInstance()->load($url)) {
+            function () use (&$promise, &$method, &$uri, &$options) {
+                if ($method == "get" && $cachedData = CacheManager::getInstance()->load($uri)) {
                     $data = $cachedData['data'];
                     $headers = $cachedData['headers'];
                 } else {
-                    $context = stream_context_create($this->getOpts($representation));
-
-                    if (false === ($data = @file_get_contents($url, false, $context))) {
-                        throw new \Exception('an error occured with the file request: '.$headers[0]);
+                    $context = stream_context_create($this->configureOptions($method, $options));
+                    print_r($this->configureOptions($method, $options));
+                    
+                    if (false === ($data = @file_get_contents($uri, false, $context))) {
+                        throw new \Exception(sprintf("An error occured with the file request: %s %s \n %s", $method, $uri, print_r($options,1)));
                     }
 
-                    if (false === $headers = (@get_headers($url, 1))) {
-                        throw new \Exception('could not connect to api');
+                    if (false === $headers = (@get_headers($uri, 1))) {
+                        throw new \Exception(sprintf("Could not connect to API: %s %s \n %s", $method, $uri, print_r($options,1)));
                     }
 
-                    CacheManager::getInstance()->save($url, ['data' => $data, 'headers' => $headers]);
+                    if ($method == "get") {
+                        CacheManager::getInstance()->save($uri, ['data' => $data, 'headers' => $headers]);
+                    }
                 }
 
                 if (isset($headers['Content-Type'])) {
@@ -91,17 +93,17 @@ class FileFetcher implements CanFetch
     }
 
     /**
-     * @param array         $requests  Array of requests. A request is either a url
-     *                                 or an array of the form ['url' => ..., 'representation' => ...]. 
-     *                                 Representations are optional, thus ['url' => ...] is also allowed.
-     * @param null|callable $fulfilled A callable of the form: function($response, $index)
-     * @param null|callable $rejected  A callable of the form: function($reason, $index)
+     * Create a request pool that asynchronously sends requests to CREST resources.
+     * 
+     * @param array         $requestsSettings  Array of request settings.
+     * @param null|callable $fulfilled         A callable of the form: function($response, $index).
+     * @param null|callable $rejected          A callable of the form: function($reason, $index).
      *
      * @return \GuzzleHttp\Promise\PromisorInterface
      */
-    public function doGetRequests($requests, $fulfilled, $rejected)
+    public function requestsAsync($requests, $fulfilled, $rejected)
     {
-        throw new Exception('Not implemented.');
+        throw new \Exception('Not implemented.');
     }
     
     /** 
@@ -109,6 +111,6 @@ class FileFetcher implements CanFetch
      */
     public function execute()
     {
-        throw new Exception('Not implemented.');
+        throw new \Exception('Not implemented.');
     }
 }
